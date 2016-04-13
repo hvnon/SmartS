@@ -1,0 +1,17 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="icon_action_width">20dp</dimen>
+    <dimen name="icon_action_height">20dp</dimen>
+    <dimen name="icon_arrow_back_width">30dp</dimen>
+    <dimen name="icon_arrow_back_height">20dp</dimen>
+    <dimen name="slide_image_height">160dp</dimen>
+
+    <dimen name="action_bar_recently_activities">60dp</dimen>
+    <dimen name="action_icon_width">10dp</dimen>
+    <dimen name="action_icon_height">10dp</dimen>
+
+    <dimen name="product_info_number_width">30dp</dimen>
+    <dimen name="product_info_number_height">30dp</dimen>
+</resources>

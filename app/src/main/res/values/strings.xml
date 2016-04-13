@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">KissMartShop</string>
+    <string name="comment">Comment</string>
+    <string name="more">More</string>
+
+    <string name="sales">Sales</string>
+    <string name="news">New</string>
+    <string name="shop">Shop</string>
+    <string name="recent">Recent</string>
+    <string name="cart">Cart</string>
+    <string name="touched">Touched</string>
+    <string name="touching">Touching</string>
+    <string name="tried">Try</string>
+    <string name="trying">Trying</string>
+    <string name="buy">Buy</string>
+    <string name="buying">Buying</string>
+</resources>

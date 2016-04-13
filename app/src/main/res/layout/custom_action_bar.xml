@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:gravity="center_vertical"
+    android:background="@color/background">
+
+
+    <ImageView
+        android:layout_width="@dimen/icon_arrow_back_width"
+        android:layout_height="@dimen/icon_arrow_back_height"
+        android:src="@drawable/ic_arrow_back"
+        android:scaleType="fitXY"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/iv_back"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/iv_back"
+        android:layout_toLeftOf="@+id/ln_action_bar"
+        android:layout_marginLeft="20dp"
+        android:text="FOREVER 21"
+        android:textSize="20sp"
+        android:textColor="@android:color/white"
+        android:layout_centerVertical="true"
+        android:id="@+id/tv_title"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:id="@id/ln_action_bar">
+        <ImageView
+            android:layout_width="@dimen/icon_action_width"
+            android:layout_height="@dimen/icon_action_height"
+            android:src="@drawable/ic_search"
+            android:scaleType="fitXY"
+            android:id="@+id/iv_search"/>
+
+        <RelativeLayout
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/rl_cart">
+
+            <ImageView
+                android:layout_width="@dimen/icon_action_width"
+                android:layout_height="@dimen/icon_action_height"
+                android:src="@drawable/ic_cart"
+                android:scaleType="fitXY"
+                android:layout_centerVertical="true"
+                android:id="@+id/btn_cart"/>
+            <TextView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:text="10"
+                android:textSize="10sp"
+                android:textColor="@android:color/white"
+                android:gravity="center"
+                android:background="@drawable/ic_bg_cart_number"
+                android:id="@+id/tv_num_of_product"/>
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>
