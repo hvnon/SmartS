@@ -7,7 +7,7 @@ android {
     defaultConfig {
         applicationId "com.shop.kissmartshop"
         minSdkVersion 14
-        targetSdkVersion 23
+        targetSdkVersion 21
         versionCode 1
         versionName "1.0"
     }
@@ -26,5 +26,7 @@ dependencies {
     compile 'com.android.support:support-v4:24.0.+'
     compile 'com.android.support:recyclerview-v7:21.0.+'
     compile 'com.android.support:cardview-v7:21.0.+'
+    compile 'com.android.support:design:23.+'
+    compile 'com.daimajia.swipelayout:library:1.2.0@aar'
     compile project(':ViewPagerIndiicator')
 }

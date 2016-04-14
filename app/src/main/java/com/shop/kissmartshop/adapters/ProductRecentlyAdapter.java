@@ -11,22 +11,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.shop.kissmartshop.R;
-import com.shop.kissmartshop.model.ProductModel;
+import com.shop.kissmartshop.model.ProductRecentActivitiesModel;
 import com.shop.kissmartshop.utils.Constants;
 
 import java.util.List;
-
-import static com.shop.kissmartshop.utils.Constants.*;
 
 /**
  * Created by LENOVO on 4/12/2016.
  */
 public class ProductRecentlyAdapter extends RecyclerView.Adapter<ProductRecentlyAdapter.ProductViewHolder>{
 
-    private List<ProductModel> mLstProducts;
+    private List<ProductRecentActivitiesModel> mLstProducts;
     private Context mContext;
 
-    public ProductRecentlyAdapter(Context context, List<ProductModel> products){
+    public ProductRecentlyAdapter(Context context, List<ProductRecentActivitiesModel> products){
         this.mContext = context;
         this.mLstProducts = products;
     }
