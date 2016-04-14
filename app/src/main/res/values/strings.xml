@@ -14,4 +14,8 @@
     <string name="trying">Trying</string>
     <string name="buy">Buy</string>
     <string name="buying">Buying</string>
+    <string name="removed">Removed</string>
+    <string name="undo">UNDO</string>
+    <string name="try_all">TRY ALL</string>
+    <string name="check_out">CHECKOUT</string>
 </resources>

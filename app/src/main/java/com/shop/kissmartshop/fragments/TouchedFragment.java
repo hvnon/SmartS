@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.shop.kissmartshop.R;
-import com.shop.kissmartshop.adapters.ProductTouchCartAdapter;
+import com.shop.kissmartshop.adapters.ProductTouchAdapter;
 import com.shop.kissmartshop.custom.SimpleDividerItemDecoration;
 import com.shop.kissmartshop.model.ProductCartTouchModel;
 import com.shop.kissmartshop.model.SizeColorModel;
@@ -47,7 +47,7 @@ public class TouchedFragment extends Fragment {
         LinearLayoutManager customLayout = new LinearLayoutManager(getActivity());
         mRecyclerViewProductTouched.setLayoutManager(customLayout);
 
-        ProductTouchCartAdapter adapter = new ProductTouchCartAdapter(getActivity(), mListProductInTouched);
+        ProductTouchAdapter adapter = new ProductTouchAdapter(getActivity(), mListProductInTouched);
         mRecyclerViewProductTouched.setAdapter(adapter);
 
         return view;
