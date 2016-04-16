@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        android:id="@+id/recycler_view_list_product_touched"
+        android:id="@+id/recycler_view_list_product_cart"
         android:layout_above="@+id/ln_bottom_action_cart"/>
     
     <LinearLayout
@@ -15,19 +15,43 @@
         android:layout_height="@dimen/bottom_action_cart_height"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-
         android:gravity="center_vertical"
         android:id="@id/ln_bottom_action_cart">
-        <Button
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
             android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:text="@string/try_all"
-            android:background="@drawable/button_selector_blue"/>
+            android:layout_weight="1">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/white"
+                android:text="@string/try_all"
+                android:background="@drawable/button_selector_blue"
+                android:id="@+id/btn_try"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:id="@+id/ln_total">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/grey"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/total"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/pink"
+                    android:textSize="25sp"
+                    android:text="$65.4"/>
+            </LinearLayout>
+        </FrameLayout>
 
         <Button
             android:layout_width="0dp"
@@ -36,9 +60,11 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
             android:layout_marginRight="20dp"
+            android:textColor="@color/white"
             android:layout_weight="1"
             android:text="@string/check_out"
-            android:background="@drawable/button_selector_pink"/>
+            android:background="@drawable/button_selector_pink"
+            android:id="@+id/btn_checkout"/>
 
     </LinearLayout>
 </RelativeLayout>

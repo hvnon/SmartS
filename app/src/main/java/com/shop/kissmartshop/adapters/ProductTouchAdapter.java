@@ -20,6 +20,7 @@ import com.shop.kissmartshop.model.ProductCartTouchModel;
 import com.shop.kissmartshop.model.SizeColorModel;
 import com.shop.kissmartshop.utils.CommonUtils;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -53,8 +54,9 @@ public class ProductTouchAdapter extends RecyclerSwipeAdapter<ProductTouchAdapte
         productViewHolder.mTextViewPriceOriginal.setText(mLstProducts.get(i).getPriceOriginal());
         productViewHolder.mImageViewProductPhoto.setImageResource(mLstProducts.get(i).getPhotoId());
 
+        productViewHolder.mTextViewProdStatus.setVisibility(View.GONE);
 
-        List<SizeColorModel> lstSizeColors = mLstProducts.get(i).getLstSizeColors();
+        Collection<SizeColorModel> lstSizeColors = mLstProducts.get(i).getLstSizeColors();
         for(SizeColorModel mode : lstSizeColors) {
             TextView tvSizeColor = new TextView(mContext);
             tvSizeColor.setText(mode.getSize());
@@ -75,72 +77,18 @@ public class ProductTouchAdapter extends RecyclerSwipeAdapter<ProductTouchAdapte
         productViewHolder.mSwipeLayoutProduct.setShowMode(SwipeLayout.ShowMode.PullOut);
 
         // Drag From Left
-        productViewHolder.mSwipeLayoutProduct.addDrag(SwipeLayout.DragEdge.Left, productViewHolder.mSwipeLayoutProduct.findViewById(R.id.bottom_add_to_cart));
+        productViewHolder.mSwipeLayoutProduct.addDrag(SwipeLayout.DragEdge.Left, productViewHolder.mSwipeLayoutProduct.findViewById(R.id.ln_bottom_add_to_cart));
 
+        productViewHolder.mSwipeLayoutProduct.setRightSwipeEnabled(false);
         productViewHolder.mSwipeLayoutProduct.addDrag(SwipeLayout.DragEdge.Right, productViewHolder.mSwipeLayoutProduct.findViewById(R.id.bottom_delete));
 
-        productViewHolder.mLnBottomDelete.setOnClickListener(new View.OnClickListener() {
+        productViewHolder.mLnBottomAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                CommonUtils.lstProductCart.add(mLstProducts.get(i));
                 productViewHolder.mSwipeLayoutProduct.close(true);
-                productViewHolder.mSwipeLayoutProduct.setSwipeEnabled(false);
-                productViewHolder.mLnConfirmDelete.setVisibility(View.VISIBLE);
             }
         });
-
-        productViewHolder.mTextViewRemoved.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItemManger.removeShownLayouts(productViewHolder.mSwipeLayoutProduct);
-                mLstProducts.remove(i);
-                notifyItemRemoved(i);
-                notifyItemRangeChanged(i, mLstProducts.size());
-                mItemManger.closeAllItems();
-            }
-        });
-
-        productViewHolder.mTextViewUndo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                productViewHolder.mSwipeLayoutProduct.close(true);
-                productViewHolder.mSwipeLayoutProduct.setSwipeEnabled(true);
-                productViewHolder.mLnConfirmDelete.setVisibility(View.GONE);
-            }
-        });
-//        productViewHolder.swipeLayout.setRightSwipeEnabled(false);
-
-//        // Handling different events when swiping
-//        productViewHolder.mSwipeLayoutProduct.addSwipeListener(new SwipeLayout.SwipeListener() {
-//            @Override
-//            public void onClose(SwipeLayout layout) {
-//                //when the SurfaceView totally cover the BottomView.
-//            }
-//
-//            @Override
-//            public void onUpdate(SwipeLayout layout, int leftOffset, int topOffset) {
-//                //you are swiping.
-//            }
-//
-//            @Override
-//            public void onStartOpen(SwipeLayout layout) {
-//
-//            }
-//
-//            @Override
-//            public void onOpen(SwipeLayout layout) {
-//                //when the BottomView totally show.
-//            }
-//
-//            @Override
-//            public void onStartClose(SwipeLayout layout) {
-//
-//            }
-//
-//            @Override
-//            public void onHandRelease(SwipeLayout layout, float xvel, float yvel) {
-//                //when user's hand released.
-//            }
-//        });
 
         mItemManger.bindView(productViewHolder.itemView, i);
 
@@ -165,6 +113,7 @@ public class ProductTouchAdapter extends RecyclerSwipeAdapter<ProductTouchAdapte
         LinearLayout mLnSizeColor;
         TextView mTextViewProdStatus;
 
+        LinearLayout mLnBottomAddToCart;
         LinearLayout mLnBottomDelete;
         LinearLayout mLnConfirmDelete;
         TextView mTextViewRemoved;
@@ -178,6 +127,7 @@ public class ProductTouchAdapter extends RecyclerSwipeAdapter<ProductTouchAdapte
             mTextViewPriceOriginal = (TextView)itemView.findViewById(R.id.tv_product_price);
             mImageViewProductPhoto = (ImageView)itemView.findViewById(R.id.iv_product_photo);
             mLnSizeColor = (LinearLayout)itemView.findViewById(R.id.ln_size_color);
+            mLnBottomAddToCart = (LinearLayout)itemView.findViewById(R.id.ln_bottom_add_to_cart);
             mTextViewProdStatus = (TextView)itemView.findViewById(R.id.tv_status);
             mLnConfirmDelete = (LinearLayout)itemView.findViewById(R.id.ln_confirm_delete);
             mLnBottomDelete = (LinearLayout)itemView.findViewById(R.id.bottom_delete);

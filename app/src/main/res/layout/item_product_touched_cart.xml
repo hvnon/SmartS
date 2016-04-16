@@ -5,7 +5,7 @@
     android:id="@+id/swipe_layout">
 
     <LinearLayout
-        android:id="@+id/bottom_add_to_cart"
+        android:id="@+id/ln_bottom_add_to_cart"
         android:layout_width="100dp"
         android:layout_height="match_parent"
         android:background="@color/pink"
@@ -114,16 +114,6 @@
                         android:id="@+id/ln_size_color"
                         android:layout_toLeftOf="@+id/tv_status">
 
-                        <!--<TextView-->
-                            <!--android:layout_width="@dimen/product_info_number_width"-->
-                            <!--android:layout_height="@dimen/product_info_number_height"-->
-                            <!--android:gravity="center"-->
-                            <!--android:background="@drawable/circle"-->
-                            <!--android:backgroundTint="@android:color/black"-->
-                            <!--android:textColor="@color/white"-->
-                            <!--android:textSize="12sp"-->
-                            <!--android:text="34"-->
-                            <!--android:id="@+id/tv_amount_touch"/>-->
                     </LinearLayout>
                     <TextView
                         android:layout_width="wrap_content"
@@ -132,6 +122,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="5dp"
                         android:text="Ready"
+                        android:visibility="gone"
                         android:id="@id/tv_status"/>
                 </RelativeLayout>
             </LinearLayout>

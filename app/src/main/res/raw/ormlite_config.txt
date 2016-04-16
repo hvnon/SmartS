@@ -1,0 +1,58 @@
+# --table-start--
+dataClass=com.shop.kissmartshop.model.ProductCartTouchModel
+tableName=product_cart_touch
+# --table-fields-start--
+# --field-start--
+fieldName=productId
+columnName=productId
+# --field-end--
+# --field-start--
+fieldName=description
+columnName=description
+# --field-end--
+# --field-start--
+fieldName=pricePromotion
+# --field-end--
+# --field-start--
+fieldName=priceOriginal
+# --field-end--
+# --field-start--
+fieldName=photoId
+# --field-end--
+# --field-start--
+fieldName=Collection<SizeColorModel>
+columnName=colorSizeId
+foreign=true
+# --field-end--
+# --field-start--
+fieldName=prodStatus
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+
+#################################
+# --table-start--
+dataClass=com.shop.kissmartshop.model.SizeColorModel
+tableName=size_color
+# --table-fields-start--
+# --field-start--
+fieldName=colorSizeId
+columnName=colorSizeId
+# --field-end--
+# --field-start--
+fieldName=color
+columnName=color
+# --field-end--
+# --field-start--
+fieldName=size
+columnName=size
+# --field-end--
+# --field-start--
+fieldName=productId
+columnName=product_id
+foreign=true
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################

@@ -17,5 +17,16 @@
     <string name="removed">Removed</string>
     <string name="undo">UNDO</string>
     <string name="try_all">TRY ALL</string>
+    <string name="cancel_try">CANCEL TRY</string>
     <string name="check_out">CHECKOUT</string>
+    <string name="pay_now">PAY NOW</string>
+    <string name="total">TOTAL</string>
+    <string name="ready">Ready</string>
+    <string name="sent">Sent</string>
+    <string name="not_found">Not Found</string>
+    <string name="please_wait">Please Wait...</string>
+    <string name="processing_card_1">Were processing your credit card.</string>
+    <string name="processing_card_2">This process may take a few seconds, so please be patient.</string>
+    <string name="thank_you_1">Thank you</string>
+    <string name="thank_you_2">for shopping with us!</string>
 </resources>

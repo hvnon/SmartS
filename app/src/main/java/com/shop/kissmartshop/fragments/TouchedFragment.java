@@ -4,13 +4,18 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
 import com.shop.kissmartshop.R;
+import com.shop.kissmartshop.activities.TouchCartActivity;
 import com.shop.kissmartshop.adapters.ProductTouchAdapter;
 import com.shop.kissmartshop.custom.SimpleDividerItemDecoration;
+import com.shop.kissmartshop.data.DatabaseHelper;
 import com.shop.kissmartshop.model.ProductCartTouchModel;
 import com.shop.kissmartshop.model.SizeColorModel;
 import com.shop.kissmartshop.utils.Constants;
@@ -23,7 +28,6 @@ import java.util.List;
  */
 public class TouchedFragment extends Fragment {
 
-    private List<ProductCartTouchModel> mListProductInCart;
     private List<ProductCartTouchModel> mListProductInTouched;
 
     private RecyclerView mRecyclerViewProductTouched;
@@ -68,8 +72,25 @@ public class TouchedFragment extends Fragment {
         sizeColor2.setSize("10");
         lstColorSizes.add(sizeColor2);
 
-        mListProductInTouched.add(new ProductCartTouchModel("Fashionable Men's Athletic Shoes With Color Matching and Letter", "$14.4", "$12.3", R.drawable.example, lstColorSizes, Constants.PRODUCT_STATUS_SENT));
-        mListProductInTouched.add(new ProductCartTouchModel("Fashionable Men's Athletic Shoes With Color Matching and Letter", "$12.4", "$21.2", R.drawable.example1, lstColorSizes, Constants.PRODUCT_STATUS_SENT));
-        mListProductInTouched.add(new ProductCartTouchModel("Fashionable Men's Athletic Shoes With Color Matching and Letter", "$12.5", "$23.1", R.drawable.example, lstColorSizes, Constants.PRODUCT_STATUS_NOT_FOUND));
+        ProductCartTouchModel model1 = new ProductCartTouchModel("1", "Fashionable Men's Athletic Shoes With Color Matching and Letter", "$14.4", "$12.3", R.drawable.example, lstColorSizes, Constants.PRODUCT_STATUS_NOTHING);
+        mListProductInTouched.add(model1);
+
+        ProductCartTouchModel model2= new ProductCartTouchModel("2", "Fashionable Men's Athletic Shoes With Color Matching and Letter", "$12.4", "$21.2", R.drawable.example1, lstColorSizes, Constants.PRODUCT_STATUS_NOTHING);
+        mListProductInTouched.add(model2);
+
+        ProductCartTouchModel model3 = new ProductCartTouchModel("3", "Fashionable Men's Athletic Shoes With Color Matching and Letter", "$12.5", "$23.1", R.drawable.example, lstColorSizes, Constants.PRODUCT_STATUS_NOTHING);
+        mListProductInTouched.add(model3);
+
+        Dao<ProductCartTouchModel, Integer> productCartTouchDao;
+        try {
+            productCartTouchDao =((TouchCartActivity)getActivity()).getHelper().getProductCartTouchDao();
+            productCartTouchDao.createOrUpdate(model1);
+            productCartTouchDao.createOrUpdate(model2);
+            productCartTouchDao.createOrUpdate(model3);
+        }catch (Exception e){
+             e.printStackTrace();
+        }
     }
+
+
 }

@@ -19,7 +19,10 @@ import com.shop.kissmartshop.R;
 import com.shop.kissmartshop.model.ProductCartTouchModel;
 import com.shop.kissmartshop.model.SizeColorModel;
 import com.shop.kissmartshop.utils.CommonUtils;
+import com.shop.kissmartshop.utils.Constants;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -32,7 +35,8 @@ public class ProductCartAdapter extends RecyclerSwipeAdapter<ProductCartAdapter.
 
     public ProductCartAdapter(Context context, List<ProductCartTouchModel> products){
         this.mContext = context;
-        this.mLstProducts = products;
+        this.mLstProducts = new ArrayList<>();
+        this.mLstProducts.addAll(products);
     }
 
     @Override
@@ -46,15 +50,42 @@ public class ProductCartAdapter extends RecyclerSwipeAdapter<ProductCartAdapter.
         return new ProductViewHolder(view);
     }
 
+    public void updateData(List<ProductCartTouchModel> lstUpdatedProducts)
+    {
+        mLstProducts.clear();
+        mLstProducts.addAll(lstUpdatedProducts);
+        notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(final ProductViewHolder productViewHolder, final int i) {
         productViewHolder.mTextViewProductDescription.setText(mLstProducts.get(i).getDescription());
         productViewHolder.mTextViewPricePromotion.setText(mLstProducts.get(i).getPricePromotion());
         productViewHolder.mTextViewPriceOriginal.setText(mLstProducts.get(i).getPriceOriginal());
         productViewHolder.mImageViewProductPhoto.setImageResource(mLstProducts.get(i).getPhotoId());
+        switch (mLstProducts.get(i).getProdStatus()){
+            case Constants.PRODUCT_STATUS_NOTHING:
+                productViewHolder.mTextViewProdStatus.setVisibility(View.GONE);
+                break;
 
+            case Constants.PRODUCT_STATUS_SENT:
+                productViewHolder.mTextViewProdStatus.setVisibility(View.VISIBLE);
+                productViewHolder.mTextViewProdStatus.setText(mContext.getString(R.string.sent));
+                break;
 
-        List<SizeColorModel> lstSizeColors = mLstProducts.get(i).getLstSizeColors();
+            case Constants.PRODUCT_STATUS_READY:
+                productViewHolder.mTextViewProdStatus.setVisibility(View.VISIBLE);
+                productViewHolder.mTextViewProdStatus.setText(mContext.getString(R.string.ready));
+                break;
+
+            case Constants.PRODUCT_STATUS_NOT_FOUND:
+                productViewHolder.mTextViewProdStatus.setVisibility(View.VISIBLE);
+                productViewHolder.mTextViewProdStatus.setText(mContext.getString(R.string.not_found));
+                break;
+        }
+
+        Collection<SizeColorModel> lstSizeColors = mLstProducts.get(i).getLstSizeColors();
+        productViewHolder.mLnSizeColor.removeAllViews();
         for(SizeColorModel mode : lstSizeColors) {
             TextView tvSizeColor = new TextView(mContext);
             tvSizeColor.setText(mode.getSize());
@@ -68,6 +99,7 @@ public class ProductCartAdapter extends RecyclerSwipeAdapter<ProductCartAdapter.
             tvSizeColor.setLayoutParams(params);
 
             productViewHolder.mLnSizeColor.addView(tvSizeColor);
+
         }
 
         productViewHolder.mTextViewPriceOriginal.setPaintFlags(productViewHolder.mTextViewPriceOriginal.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -75,9 +107,10 @@ public class ProductCartAdapter extends RecyclerSwipeAdapter<ProductCartAdapter.
         productViewHolder.mSwipeLayoutProduct.setShowMode(SwipeLayout.ShowMode.PullOut);
 
         // Drag From Left
-        productViewHolder.mSwipeLayoutProduct.addDrag(SwipeLayout.DragEdge.Left, productViewHolder.mSwipeLayoutProduct.findViewById(R.id.bottom_add_to_cart));
+        productViewHolder.mSwipeLayoutProduct.addDrag(SwipeLayout.DragEdge.Left, productViewHolder.mSwipeLayoutProduct.findViewById(R.id.ln_bottom_add_to_cart));
 
         productViewHolder.mSwipeLayoutProduct.addDrag(SwipeLayout.DragEdge.Right, productViewHolder.mSwipeLayoutProduct.findViewById(R.id.bottom_delete));
+        productViewHolder.mSwipeLayoutProduct.setLeftSwipeEnabled(false);
 
         productViewHolder.mLnBottomDelete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,40 +140,6 @@ public class ProductCartAdapter extends RecyclerSwipeAdapter<ProductCartAdapter.
                 productViewHolder.mLnConfirmDelete.setVisibility(View.GONE);
             }
         });
-//        productViewHolder.swipeLayout.setRightSwipeEnabled(false);
-
-//        // Handling different events when swiping
-//        productViewHolder.mSwipeLayoutProduct.addSwipeListener(new SwipeLayout.SwipeListener() {
-//            @Override
-//            public void onClose(SwipeLayout layout) {
-//                //when the SurfaceView totally cover the BottomView.
-//            }
-//
-//            @Override
-//            public void onUpdate(SwipeLayout layout, int leftOffset, int topOffset) {
-//                //you are swiping.
-//            }
-//
-//            @Override
-//            public void onStartOpen(SwipeLayout layout) {
-//
-//            }
-//
-//            @Override
-//            public void onOpen(SwipeLayout layout) {
-//                //when the BottomView totally show.
-//            }
-//
-//            @Override
-//            public void onStartClose(SwipeLayout layout) {
-//
-//            }
-//
-//            @Override
-//            public void onHandRelease(SwipeLayout layout, float xvel, float yvel) {
-//                //when user's hand released.
-//            }
-//        });
 
         mItemManger.bindView(productViewHolder.itemView, i);
 
@@ -164,7 +163,7 @@ public class ProductCartAdapter extends RecyclerSwipeAdapter<ProductCartAdapter.
         ImageView mImageViewProductPhoto;
         LinearLayout mLnSizeColor;
         TextView mTextViewProdStatus;
-
+        LinearLayout mLnBottomAddToCart;
         LinearLayout mLnBottomDelete;
         LinearLayout mLnConfirmDelete;
         TextView mTextViewRemoved;
@@ -178,6 +177,7 @@ public class ProductCartAdapter extends RecyclerSwipeAdapter<ProductCartAdapter.
             mTextViewPriceOriginal = (TextView)itemView.findViewById(R.id.tv_product_price);
             mImageViewProductPhoto = (ImageView)itemView.findViewById(R.id.iv_product_photo);
             mLnSizeColor = (LinearLayout)itemView.findViewById(R.id.ln_size_color);
+            mLnBottomAddToCart = (LinearLayout)itemView.findViewById(R.id.ln_bottom_add_to_cart);
             mTextViewProdStatus = (TextView)itemView.findViewById(R.id.tv_status);
             mLnConfirmDelete = (LinearLayout)itemView.findViewById(R.id.ln_confirm_delete);
             mLnBottomDelete = (LinearLayout)itemView.findViewById(R.id.bottom_delete);
