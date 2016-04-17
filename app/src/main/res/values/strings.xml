@@ -29,4 +29,7 @@
     <string name="processing_card_2">This process may take a few seconds, so please be patient.</string>
     <string name="thank_you_1">Thank you</string>
     <string name="thank_you_2">for shopping with us!</string>
+    <string name="add_to_cart">ADD TO CART</string>
+    <string name="button_buy">BUY</string>
+    <string name="try_now">TRY NOW</string>
 </resources>

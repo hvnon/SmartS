@@ -14,6 +14,7 @@ import com.shop.kissmartshop.R;
 import com.shop.kissmartshop.model.ProductRecentActivitiesModel;
 import com.shop.kissmartshop.utils.Constants;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,7 +27,8 @@ public class ProductRecentlyAdapter extends RecyclerView.Adapter<ProductRecently
 
     public ProductRecentlyAdapter(Context context, List<ProductRecentActivitiesModel> products){
         this.mContext = context;
-        this.mLstProducts = products;
+        this.mLstProducts = new ArrayList<>();
+        this.mLstProducts.addAll(products);
     }
 
     @Override

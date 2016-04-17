@@ -16,39 +16,48 @@ public class CustomLinearLayoutManager extends LinearLayoutManager {
         super(context);
     }
 
-    public CustomLinearLayoutManager(Context context, int orientation, boolean reverseLayout)    {
-        super(context, orientation, reverseLayout);
-    }
-
     private int[] mMeasuredDimension = new int[2];
+
+    @Override
+    public boolean canScrollVertically() {
+        return false;
+    }
 
     @Override
     public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state,
                           int widthSpec, int heightSpec) {
         final int widthMode = View.MeasureSpec.getMode(widthSpec);
         final int heightMode = View.MeasureSpec.getMode(heightSpec);
+
         final int widthSize = View.MeasureSpec.getSize(widthSpec);
         final int heightSize = View.MeasureSpec.getSize(heightSpec);
+
         int width = 0;
         int height = 0;
         for (int i = 0; i < getItemCount(); i++) {
-            measureScrapChild(recycler, i,
-                    View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),
-                    View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),
-                    mMeasuredDimension);
-
             if (getOrientation() == HORIZONTAL) {
+                measureScrapChild(recycler, i,
+                        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                        heightSpec,
+                        mMeasuredDimension);
+
                 width = width + mMeasuredDimension[0];
                 if (i == 0) {
                     height = mMeasuredDimension[1];
                 }
             } else {
+                measureScrapChild(recycler, i,
+                        widthSpec,
+                        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                        mMeasuredDimension);
+
                 height = height + mMeasuredDimension[1];
                 if (i == 0) {
                     width = mMeasuredDimension[0];
                 }
             }
         }
+
         switch (widthMode) {
             case View.MeasureSpec.EXACTLY:
                 width = widthSize;
@@ -68,17 +77,29 @@ public class CustomLinearLayoutManager extends LinearLayoutManager {
 
     private void measureScrapChild(RecyclerView.Recycler recycler, int position, int widthSpec,
                                    int heightSpec, int[] measuredDimension) {
+
         View view = recycler.getViewForPosition(position);
-        if (view != null) {
-            RecyclerView.LayoutParams p = (RecyclerView.LayoutParams) view.getLayoutParams();
-            int childWidthSpec = ViewGroup.getChildMeasureSpec(widthSpec,
-                    getPaddingLeft() + getPaddingRight(), p.width);
-            int childHeightSpec = ViewGroup.getChildMeasureSpec(heightSpec,
-                    getPaddingTop() + getPaddingBottom(), p.height);
-            view.measure(childWidthSpec, childHeightSpec);
-            measuredDimension[0] = view.getMeasuredWidth() + p.leftMargin + p.rightMargin;
-            measuredDimension[1] = view.getMeasuredHeight() + p.bottomMargin + p.topMargin;
-            recycler.recycleView(view);
+        if (view.getVisibility() == View.GONE) {
+            measuredDimension[0] = 0;
+            measuredDimension[1] = 0;
+            return;
         }
+        // For adding Item Decor Insets to view
+        super.measureChildWithMargins(view, 0, 0);
+        RecyclerView.LayoutParams p = (RecyclerView.LayoutParams) view.getLayoutParams();
+        int childWidthSpec = ViewGroup.getChildMeasureSpec(
+                widthSpec,
+                getPaddingLeft() + getPaddingRight() + getDecoratedLeft(view) + getDecoratedRight(view),
+                p.width);
+        int childHeightSpec = ViewGroup.getChildMeasureSpec(
+                heightSpec,
+                getPaddingTop() + getPaddingBottom() + getDecoratedTop(view) + getDecoratedBottom(view),
+                p.height);
+        view.measure(childWidthSpec, childHeightSpec);
+
+        // Get decorated measurements
+        measuredDimension[0] = getDecoratedMeasuredWidth(view) + p.leftMargin + p.rightMargin;
+        measuredDimension[1] = getDecoratedMeasuredHeight(view) + p.bottomMargin + p.topMargin;
+        recycler.recycleView(view);
     }
 }
