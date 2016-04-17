@@ -13,13 +13,19 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.shop.kissmartshop.R;
 import com.shop.kissmartshop.adapters.ProductPagerAdapter;
+import com.shop.kissmartshop.model.ProductCartTouchModel;
+import com.shop.kissmartshop.model.SizeColorModel;
 import com.shop.kissmartshop.utils.CommonUtils;
 import com.viewpagerindicator.CirclePageIndicator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProductDetailActivity extends BaseActivity {
 
@@ -28,11 +34,16 @@ public class ProductDetailActivity extends BaseActivity {
 
     private LinearLayout mLinearLayoutSizeColor;
     private LinearLayout mLinearLayoutAddToCart;
+    private LinearLayout mLinearLayoutProductSizeColors;
     private TextView mTextViewSelected;
     private TextView mTextViewPriceOriginal;
     private TextView mTextViewNumberAddToCart;
+    private TextView mTextViewProductDescription;
+    private TextView mTextViewProductPricePromotion;
     private FloatingActionButton mFABAddToFavourite;
 
+    private List<SizeColorModel> mListColorSizes;
+    private int numOfAddCart = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,23 +60,107 @@ public class ProductDetailActivity extends BaseActivity {
         mPageIndicatorProduct.setFillColor(getResources().getColor(R.color.pink));
         mPageIndicatorProduct.setStrokeColor(getResources().getColor(R.color.grey));
 
-        LinearLayout lnProductColors = (LinearLayout)findViewById(R.id.ln_product_colors);
+        mLinearLayoutProductSizeColors = (LinearLayout)findViewById(R.id.ln_product_colors);
+        mTextViewProductDescription = (TextView)findViewById(R.id.tv_product_description);
+        mTextViewProductPricePromotion = (TextView)findViewById(R.id.tv_product_price_promotion);
 
+        mLinearLayoutSizeColor = (LinearLayout)findViewById(R.id.ln_size_color);
+        mTextViewPriceOriginal = (TextView)findViewById(R.id.tv_price_original);
+        mTextViewPriceOriginal.setPaintFlags(mTextViewPriceOriginal.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
-        for(int i=0;i<2;i++) {
+        mTextViewNumberAddToCart = (TextView)findViewById(R.id.tv_number_add_to_card);
+        mLinearLayoutAddToCart = (LinearLayout)findViewById(R.id.ln_add_to_cart);
+        mLinearLayoutAddToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numOfAddCart += 1;
+                mTextViewNumberAddToCart.setText(String.format("(%d)", numOfAddCart));
+                if (mListColorSizes == null) {
+                    mListColorSizes = new ArrayList<SizeColorModel>();
+                }
+                mListColorSizes.clear();
+                getListValueOfColorSize(mLinearLayoutProductSizeColors);
+
+                String prodId = String.valueOf(numOfAddCart);
+                String prodDes = mTextViewProductDescription.getText().toString();
+                String prodPriceOriginal = mTextViewPriceOriginal.getText().toString();
+                String prodPricePromotion = mTextViewProductPricePromotion.getText().toString();
+
+                ProductCartTouchModel product = new ProductCartTouchModel();
+                product.setProductId(prodId);
+                product.setDescription(prodDes);
+                product.setLstSizeColors(mListColorSizes);
+                product.setPriceOriginal(prodPriceOriginal);
+                product.setPricePromotion(prodPricePromotion);
+                product.setPhotoId(R.drawable.example);
+                CommonUtils.lstProductCart.add(product);
+
+                onUpdateCartNumber(1);
+            }
+        });
+
+        mFABAddToFavourite = (FloatingActionButton)findViewById(R.id.fab_add_favourite);
+        mFABAddToFavourite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mFABAddToFavourite.setImageResource(R.drawable.ic_favorite_product_detail);
+                mFABAddToFavourite.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.pink)));
+            }
+        });
+
+        createSizeColorOfProduct();
+        createListSize();
+    }
+
+    private void createSizeColorOfProduct()
+    {
+        for(int i=0;i<4;i++) {
+
+            RelativeLayout rlSizeColorBg = new RelativeLayout(this);
+            LinearLayout.LayoutParams paramLayoutSizeColorBg = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            rlSizeColorBg.setLayoutParams(paramLayoutSizeColorBg);
+
             TextView tvSizeColor = new TextView(this);
             tvSizeColor.setTextColor(this.getResources().getColor(R.color.white));
             tvSizeColor.setBackgroundResource(R.drawable.circle);
-            tvSizeColor.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF5623")));
+            switch (i) {
+                case 0:
+                    tvSizeColor.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#020302")));
+                    break;
+                case 1:
+                    tvSizeColor.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#475784")));
+                    break;
+                case 2:
+                    tvSizeColor.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#0099F2")));
+                    break;
+                case 3:
+                    tvSizeColor.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00B14D")));
+                    break;
 
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(CommonUtils.dpToPx(this, 35), CommonUtils.dpToPx(this, 35));
+            }
             tvSizeColor.setGravity(Gravity.CENTER);
-            tvSizeColor.setLayoutParams(params);
+
+            RelativeLayout.LayoutParams paramsTextViewSizeColor = new RelativeLayout.LayoutParams(CommonUtils.dpToPx(this, 34), CommonUtils.dpToPx(this, 34));
+            paramsTextViewSizeColor.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+            tvSizeColor.setLayoutParams(paramsTextViewSizeColor);
+
+            TextView tvBgSizeColor = new TextView(this);
+            tvBgSizeColor.setTextColor(this.getResources().getColor(R.color.white));
+            tvBgSizeColor.setGravity(Gravity.CENTER);
+
+            tvSizeColor.setTag(tvBgSizeColor);
+
+            RelativeLayout.LayoutParams paramsTextViewSizeColorBg = new RelativeLayout.LayoutParams(CommonUtils.dpToPx(this, 45), CommonUtils.dpToPx(this, 45));
+            paramsTextViewSizeColorBg.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+            tvBgSizeColor.setLayoutParams(paramsTextViewSizeColorBg);
+
+            rlSizeColorBg.addView(tvBgSizeColor);
+            rlSizeColorBg.addView(tvSizeColor);
 
             LinearLayout lnSizeColor = new LinearLayout(this);
             LinearLayout.LayoutParams paramSizeColor = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             lnSizeColor.setOrientation(LinearLayout.VERTICAL);
-            paramSizeColor.rightMargin = CommonUtils.dpToPx(this, 10);
+            paramSizeColor.rightMargin = CommonUtils.dpToPx(this, 0);
             paramSizeColor.gravity = Gravity.CENTER;
             lnSizeColor.setLayoutParams(paramSizeColor);
             lnSizeColor.setGravity(Gravity.CENTER);
@@ -77,8 +172,9 @@ public class ProductDetailActivity extends BaseActivity {
             ivSizeIcon.setVisibility(View.GONE);
 
             lnSizeColor.addView(ivSizeIcon);
-            lnSizeColor.addView(tvSizeColor);
-            lnProductColors.addView(lnSizeColor);
+//            lnSizeColor.addView(tvSizeColor);
+            lnSizeColor.addView(rlSizeColorBg);
+            mLinearLayoutProductSizeColors.addView(lnSizeColor);
 
             tvSizeColor.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -97,31 +193,9 @@ public class ProductDetailActivity extends BaseActivity {
             });
         }
 
-        mLinearLayoutSizeColor = (LinearLayout)findViewById(R.id.ln_size_color);
-        mTextViewPriceOriginal = (TextView)findViewById(R.id.tv_price_original);
-        mTextViewPriceOriginal.setPaintFlags(mTextViewPriceOriginal.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-
-        mTextViewNumberAddToCart = (TextView)findViewById(R.id.tv_number_add_to_card);
-        mLinearLayoutAddToCart = (LinearLayout)findViewById(R.id.ln_add_to_cart);
-        mLinearLayoutAddToCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mTextViewNumberAddToCart.setText("(1)");
-            }
-        });
-
-        mFABAddToFavourite = (FloatingActionButton)findViewById(R.id.fab_add_favourite);
-        mFABAddToFavourite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mFABAddToFavourite.setImageResource(R.drawable.ic_favorite_product_detail);
-                mFABAddToFavourite.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.pink)));
-            }
-        });
-        createSize();
     }
 
-    private void createSize()
+    private void createListSize()
     {
         final LinearLayout lnSizeColorFirst = (LinearLayout)findViewById(R.id.ln_size_color_first);
         for(int i = 6; i<12; i++) {
@@ -174,6 +248,34 @@ public class ProductDetailActivity extends BaseActivity {
         }
     }
 
+//    private void getListValueOfColorSize()
+//    {
+//        for(int i=0; i<mLinearLayoutProductSizeColors.getChildCount();i++) {
+//            ViewGroup view = (ViewGroup)mLinearLayoutProductSizeColors.getChildAt(i);
+//            getValueOfColorSize(view);
+//        }
+//    }
+
+    private void getListValueOfColorSize(ViewGroup viewGroup){
+        for(int i=0; i<viewGroup.getChildCount();i++)
+        {
+            View view = viewGroup.getChildAt(i);
+            if (view instanceof ViewGroup) {
+                getListValueOfColorSize((ViewGroup) view);
+            } else if ((view instanceof TextView)) {
+                TextView tvSizeColor = ((TextView)view);
+                String value = tvSizeColor.getText().toString();
+                if (!value.equalsIgnoreCase("")) {
+                    SizeColorModel colorSize = new SizeColorModel();
+                    colorSize.setColor(String.format("#%06X", (0xFFFFFF & tvSizeColor.getBackgroundTintList().getDefaultColor())));
+                    colorSize.setSize(value);
+                    mListColorSizes.add(colorSize);
+                    return;
+                }
+            }
+        }
+    }
+
     private void reselectSize(ViewGroup viewGroup, String value)
     {
         for(int i=0; i<viewGroup.getChildCount();i++)
@@ -198,6 +300,8 @@ public class ProductDetailActivity extends BaseActivity {
         v.setBackgroundResource(R.drawable.button_selector_blue);
         deselectSize(mLinearLayoutSizeColor, v);
         mTextViewSelected.setText(String.valueOf(value));
+        TextView tvBgSizeColor = (TextView)mTextViewSelected.getTag();
+        tvBgSizeColor.setBackgroundResource(R.drawable.ic_bg_color);
         mLinearLayoutSizeColor.setVisibility(View.GONE);
     }
 

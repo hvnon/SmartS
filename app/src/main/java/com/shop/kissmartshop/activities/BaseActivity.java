@@ -1,5 +1,6 @@
 package com.shop.kissmartshop.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.shop.kissmartshop.R;
+import com.shop.kissmartshop.utils.CommonUtils;
 
 /**
  * Created by LENOVO on 4/13/2016.
@@ -66,6 +68,8 @@ public class BaseActivity extends AppCompatActivity {
 
         mActionBar.setCustomView(customView);
         mActionBar.setDisplayShowCustomEnabled(true);
+
+        onUpdateCartNumber();
     }
 
     protected void onBack()
@@ -80,13 +84,29 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void onCartInfo()
     {
-
+        Intent iTouchCart = new Intent(getApplicationContext(), TouchCartActivity.class);
+        startActivity(iTouchCart);
     }
 
-    protected void onUpdateCartNumber(String number)
+    public void onUpdateCartNumber()
     {
         if (mTextViewCartNumber != null){
-            mTextViewCartNumber.setText(number);
+            if(CommonUtils.countProdInCart > 0) {
+                mTextViewCartNumber.setVisibility(View.VISIBLE);
+                mTextViewCartNumber.setText(String.valueOf(CommonUtils.countProdInCart));
+            } else {
+                mTextViewCartNumber.setVisibility(View.GONE);
+            }
+
+        }
+    }
+
+    protected void onUpdateCartNumber(int number)
+    {
+        CommonUtils.countProdInCart += number;
+        if (mTextViewCartNumber != null){
+            mTextViewCartNumber.setVisibility(View.VISIBLE);
+            mTextViewCartNumber.setText(String.valueOf(CommonUtils.countProdInCart));
         }
     }
 }

@@ -171,6 +171,9 @@ public class CartFragment extends Fragment{
                 mProductCartAdapter.updateData(mListProductInCart);
                 mButtonCheckout.setText(getResources().getString(R.string.check_out));
                 mButtonTry.setText(getResources().getString(R.string.try_all));
+                CommonUtils.lstProductCart.clear();
+                CommonUtils.countProdInCart = 0;
+                ((TouchCartActivity)getActivity()).onUpdateCartNumber();
                 break;
             case Constants.PAYMENT_CANCEL:
                 break;

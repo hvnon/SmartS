@@ -13,6 +13,7 @@ import java.util.List;
  */
 public class CommonUtils {
     public static List<ProductCartTouchModel> lstProductCart = new ArrayList<>();
+    public static int countProdInCart = 0;
 
     public static int dpToPx(Context context, int dp) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();

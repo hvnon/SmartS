@@ -11,8 +11,8 @@ public class SizeColorModel implements Serializable {
 
     private static final long serialVersionUID = -222864131214757024L;
 
-    @DatabaseField(foreign = true)
-    private ProductCartTouchModel product;
+//    @DatabaseField(foreign = true)
+//    private ProductCartTouchModel product;
 
     @DatabaseField
     private String colorSizeId;

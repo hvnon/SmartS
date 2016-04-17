@@ -36,13 +36,12 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/grey"/>
+            android:background="@color/divier_color"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.6"
-            android:background="@color/grey">
+            android:layout_weight="0.6">
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -50,7 +49,7 @@
                     android:id="@+id/ln_product_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:background="#FAFAF9"
                     android:orientation="vertical">
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -65,7 +64,8 @@
                             android:layout_marginLeft="20dp"
                             android:lines="2"
                             android:ellipsize="end"
-                            android:text="Concise Men's Athletic Shoes With Striped and Splicing Design"/>
+                            android:text="Concise Men's Athletic Shoes With Striped and Splicing Design"
+                            android:id="@+id/tv_product_description"/>
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -83,7 +83,8 @@
                                 android:layout_height="wrap_content"
                                 android:textSize="25sp"
                                 android:textColor="@color/pink"
-                                android:text="13.2"/>
+                                android:text="13.2"
+                                android:id="@+id/tv_product_price_promotion"/>
                         </LinearLayout>
                         <TextView
                             android:layout_width="0dp"
@@ -96,12 +97,21 @@
                             android:text="$12.24"
                             android:id="@+id/tv_price_original"/>
                     </LinearLayout>
+
+                    <View android:layout_width="match_parent"
+                          android:layout_height="1dp"
+                          android:layout_marginTop="5dp"
+                          android:layout_marginBottom="5dp"
+                          android:layout_marginLeft="20dp"
+                          android:layout_marginRight="20dp"
+                          android:background="#F4F3F2"/>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_margin="20dp"
                         android:gravity="center"
+                        android:layout_marginBottom="5dp"
                         android:id="@+id/ln_product_colors">
 
                     </LinearLayout>
@@ -144,13 +154,13 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/grey"
+                    android:background="@color/background_product_detail"
                     android:orientation="horizontal">
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginTop="10dp"
-                        android:background="@color/light_grey"
+                        android:background="@color/background_bottom_action_product_detail"
                         android:layout_weight="1"
                         android:paddingLeft="25dp"
                         android:orientation="horizontal"
@@ -173,7 +183,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginTop="10dp"
-                        android:background="@color/light_grey"
+                        android:background="@color/background_bottom_action_product_detail"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:textColor="@color/pink"
@@ -187,6 +197,8 @@
                     <Button android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/circle_stroke_white"
+                        android:textSize="22sp"
+                        android:textColor="@color/white"
                         android:text="@string/try_now"/>
                 </FrameLayout>
             </RelativeLayout>

@@ -84,7 +84,7 @@ public class ProductCartAdapter extends RecyclerSwipeAdapter<ProductCartAdapter.
                 break;
         }
 
-        Collection<SizeColorModel> lstSizeColors = mLstProducts.get(i).getLstSizeColors();
+        List<SizeColorModel> lstSizeColors = mLstProducts.get(i).getLstSizeColors();
         productViewHolder.mLnSizeColor.removeAllViews();
         for(SizeColorModel mode : lstSizeColors) {
             TextView tvSizeColor = new TextView(mContext);

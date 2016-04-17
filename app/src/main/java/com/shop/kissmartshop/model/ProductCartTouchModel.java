@@ -1,9 +1,12 @@
 package com.shop.kissmartshop.model;
 
+import android.widget.LinearLayout;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -30,13 +33,15 @@ public class ProductCartTouchModel implements Serializable {
     private int photoId;
 
     @ForeignCollectionField
-    private Collection<SizeColorModel> lstSizeColors;
+    private List<SizeColorModel> lstSizeColors;
 
     @DatabaseField
     private int prodStatus;
 
 
-    public ProductCartTouchModel(String productId, String description, String pricePromotion, String priceOriginal, int photoId, Collection<SizeColorModel> lstSizeColors, int prodStatus)
+    public ProductCartTouchModel(){}
+
+    public ProductCartTouchModel(String productId, String description, String pricePromotion, String priceOriginal, int photoId, List<SizeColorModel> lstSizeColors, int prodStatus)
     {
         this.productId = productId;
         this.description = description;
@@ -87,12 +92,13 @@ public class ProductCartTouchModel implements Serializable {
         this.photoId = photoId;
     }
 
-    public Collection<SizeColorModel> getLstSizeColors() {
+    public List<SizeColorModel> getLstSizeColors() {
         return lstSizeColors;
     }
 
     public void setLstSizeColors(List<SizeColorModel> lstSizeColors) {
-        this.lstSizeColors = lstSizeColors;
+        this.lstSizeColors = new ArrayList<>();
+        this.lstSizeColors.addAll(lstSizeColors);
     }
 
     public int getProdStatus() {
