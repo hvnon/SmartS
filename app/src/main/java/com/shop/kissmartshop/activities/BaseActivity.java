@@ -69,7 +69,13 @@ public class BaseActivity extends AppCompatActivity {
         mActionBar.setCustomView(customView);
         mActionBar.setDisplayShowCustomEnabled(true);
 
+
+    }
+
+    @Override
+    protected void onResume() {
         onUpdateCartNumber();
+        super.onResume();
     }
 
     protected void onBack()

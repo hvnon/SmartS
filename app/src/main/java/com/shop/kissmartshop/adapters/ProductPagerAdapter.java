@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 
 import com.shop.kissmartshop.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,18 +19,20 @@ import java.util.List;
 public class ProductPagerAdapter extends PagerAdapter {
 
 //    private List<String> mListProducts;
-    int[] mListProducts = {R.drawable.example, R.drawable.example1};
     private Context mContext;
     private LayoutInflater mLayoutInflater;
+    private List<Integer> mListProductPhotos;
 
-    public ProductPagerAdapter(Context context){
+    public ProductPagerAdapter(Context context, List<Integer> lstProductPhotos){
         mContext = context;
+        mListProductPhotos = new ArrayList<>();
+        mListProductPhotos.addAll(lstProductPhotos);
         mLayoutInflater  = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public int getCount() {
-        return mListProducts.length;//mListProducts.size();
+        return mListProductPhotos.size();//mListProducts.size();
     }
 
     @Override
@@ -42,7 +45,7 @@ public class ProductPagerAdapter extends PagerAdapter {
         View itemView = mLayoutInflater.inflate(R.layout.item_pager_product, container, false);
 
         ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
-        imageView.setImageResource(mListProducts[position]);
+        imageView.setImageResource(mListProductPhotos.get(position));
 
         container.addView(itemView);
 

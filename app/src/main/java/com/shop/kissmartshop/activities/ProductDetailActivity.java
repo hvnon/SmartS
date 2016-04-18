@@ -3,6 +3,7 @@ package com.shop.kissmartshop.activities;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.DirectionalViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -17,11 +18,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.devspark.robototextview.util.RobotoTypefaceManager;
+import com.devspark.robototextview.util.RobotoTypefaceUtils;
+import com.devspark.robototextview.widget.RobotoTextView;
 import com.shop.kissmartshop.R;
 import com.shop.kissmartshop.adapters.ProductPagerAdapter;
 import com.shop.kissmartshop.model.ProductCartTouchModel;
+import com.shop.kissmartshop.model.ProductRecentActivitiesModel;
 import com.shop.kissmartshop.model.SizeColorModel;
 import com.shop.kissmartshop.utils.CommonUtils;
+import com.shop.kissmartshop.utils.Constants;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.ArrayList;
@@ -36,7 +42,7 @@ public class ProductDetailActivity extends BaseActivity {
     private LinearLayout mLinearLayoutAddToCart;
     private LinearLayout mLinearLayoutProductSizeColors;
     private TextView mTextViewSelected;
-    private TextView mTextViewPriceOriginal;
+    private TextView mTextViewProductPriceOriginal;
     private TextView mTextViewNumberAddToCart;
     private TextView mTextViewProductDescription;
     private TextView mTextViewProductPricePromotion;
@@ -44,15 +50,23 @@ public class ProductDetailActivity extends BaseActivity {
 
     private List<SizeColorModel> mListColorSizes;
     private int numOfAddCart = 0;
+    private ProductRecentActivitiesModel mProduct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
 
+        mProduct = (ProductRecentActivitiesModel)getIntent().getSerializableExtra(Constants.EXTRA_PRODUCT_DETAIL);
+
         mViewPagerProduct = (DirectionalViewPager)findViewById(R.id.view_pager_product);
         mViewPagerProduct.setOrientation(DirectionalViewPager.VERTICAL);
-        ProductPagerAdapter adapter = new ProductPagerAdapter(this);
+
+        final List<Integer> lstProductPhotos = new ArrayList<>();
+        lstProductPhotos.add(mProduct.getPhotoId());
+        lstProductPhotos.add(R.drawable.shoes11);
+        lstProductPhotos.add(R.drawable.shoes12);
+        ProductPagerAdapter adapter = new ProductPagerAdapter(this, lstProductPhotos);
         mViewPagerProduct.setAdapter(adapter);
 
         mPageIndicatorProduct = (CirclePageIndicator)findViewById(R.id.page_indicator_product);
@@ -65,8 +79,8 @@ public class ProductDetailActivity extends BaseActivity {
         mTextViewProductPricePromotion = (TextView)findViewById(R.id.tv_product_price_promotion);
 
         mLinearLayoutSizeColor = (LinearLayout)findViewById(R.id.ln_size_color);
-        mTextViewPriceOriginal = (TextView)findViewById(R.id.tv_price_original);
-        mTextViewPriceOriginal.setPaintFlags(mTextViewPriceOriginal.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        mTextViewProductPriceOriginal = (TextView)findViewById(R.id.tv_price_original);
+        mTextViewProductPriceOriginal.setPaintFlags(mTextViewProductPriceOriginal.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
         mTextViewNumberAddToCart = (TextView)findViewById(R.id.tv_number_add_to_card);
         mLinearLayoutAddToCart = (LinearLayout)findViewById(R.id.ln_add_to_cart);
@@ -83,7 +97,7 @@ public class ProductDetailActivity extends BaseActivity {
 
                 String prodId = String.valueOf(numOfAddCart);
                 String prodDes = mTextViewProductDescription.getText().toString();
-                String prodPriceOriginal = mTextViewPriceOriginal.getText().toString();
+                String prodPriceOriginal = mTextViewProductPriceOriginal.getText().toString();
                 String prodPricePromotion = mTextViewProductPricePromotion.getText().toString();
 
                 ProductCartTouchModel product = new ProductCartTouchModel();
@@ -92,7 +106,7 @@ public class ProductDetailActivity extends BaseActivity {
                 product.setLstSizeColors(mListColorSizes);
                 product.setPriceOriginal(prodPriceOriginal);
                 product.setPricePromotion(prodPricePromotion);
-                product.setPhotoId(R.drawable.example);
+                product.setPhotoId(lstProductPhotos.get(0));
                 CommonUtils.lstProductCart.add(product);
 
                 onUpdateCartNumber(1);
@@ -108,10 +122,17 @@ public class ProductDetailActivity extends BaseActivity {
             }
         });
 
+        popularUI();
         createSizeColorOfProduct();
         createListSize();
     }
 
+    private void popularUI()
+    {
+        mTextViewProductDescription.setText(mProduct.getDescription());
+        mTextViewProductPricePromotion.setText(mProduct.getPricePromotion());
+        mTextViewProductPriceOriginal.setText(mProduct.getPriceOriginal());
+    }
     private void createSizeColorOfProduct()
     {
         for(int i=0;i<4;i++) {
@@ -120,9 +141,14 @@ public class ProductDetailActivity extends BaseActivity {
             LinearLayout.LayoutParams paramLayoutSizeColorBg = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             rlSizeColorBg.setLayoutParams(paramLayoutSizeColorBg);
 
-            TextView tvSizeColor = new TextView(this);
+            RobotoTextView tvSizeColor = new RobotoTextView(this);
             tvSizeColor.setTextColor(this.getResources().getColor(R.color.white));
             tvSizeColor.setBackgroundResource(R.drawable.circle);
+            Typeface typeface = RobotoTypefaceManager.obtainTypeface(
+                    this,
+                    RobotoTypefaceManager.Typeface.ROBOTO_LIGHT);
+            RobotoTypefaceUtils.setUp(tvSizeColor, typeface);
+
             switch (i) {
                 case 0:
                     tvSizeColor.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#020302")));
@@ -204,7 +230,7 @@ public class ProductDetailActivity extends BaseActivity {
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1);
             lnSize.setLayoutParams(params);
 
-            TextView tvSize = new TextView(this);
+            RobotoTextView tvSize = new RobotoTextView(this);
             FrameLayout.LayoutParams paramsSize = new FrameLayout.LayoutParams(CommonUtils.dpToPx(this, 30), CommonUtils.dpToPx(this, 30));
             paramsSize.gravity = Gravity.CENTER;
             tvSize.setGravity(Gravity.CENTER);
@@ -213,6 +239,11 @@ public class ProductDetailActivity extends BaseActivity {
             lnSize.addView(tvSize);
             lnSizeColorFirst.addView(lnSize);
             tvSize.setTag(i);
+
+            Typeface typeface = RobotoTypefaceManager.obtainTypeface(
+                    this,
+                    RobotoTypefaceManager.Typeface.ROBOTO_LIGHT);
+            RobotoTypefaceUtils.setUp(tvSize, typeface);
 
             tvSize.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -229,7 +260,7 @@ public class ProductDetailActivity extends BaseActivity {
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1);
             lnSize.setLayoutParams(params);
 
-            TextView tvSize = new TextView(this);
+            RobotoTextView tvSize = new RobotoTextView(this);
             FrameLayout.LayoutParams paramsSize = new FrameLayout.LayoutParams(CommonUtils.dpToPx(this, 30), CommonUtils.dpToPx(this, 30));
             paramsSize.gravity = Gravity.CENTER;
             tvSize.setGravity(Gravity.CENTER);
@@ -238,6 +269,11 @@ public class ProductDetailActivity extends BaseActivity {
             lnSize.addView(tvSize);
             lnSizeColorSecond.addView(lnSize);
             tvSize.setTag(i);
+
+            Typeface typeface = RobotoTypefaceManager.obtainTypeface(
+                    this,
+                    RobotoTypefaceManager.Typeface.ROBOTO_LIGHT);
+            RobotoTypefaceUtils.setUp(tvSize, typeface);
 
             tvSize.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -6,17 +6,21 @@
     <dimen name="icon_action_height">20dp</dimen>
     <dimen name="icon_arrow_back_width">30dp</dimen>
     <dimen name="icon_arrow_back_height">20dp</dimen>
-    <dimen name="slide_image_height">160dp</dimen>
+    <dimen name="slide_image_height">180dp</dimen>
 
     <dimen name="action_bar_recently_activities">60dp</dimen>
     <dimen name="action_icon_width">10dp</dimen>
     <dimen name="action_icon_height">10dp</dimen>
 
-    <dimen name="product_info_number_width">30dp</dimen>
-    <dimen name="product_info_number_height">30dp</dimen>
+    <dimen name="product_info_number_width">20dp</dimen>
+    <dimen name="product_info_number_height">20dp</dimen>
 
     <dimen name="list_item_padding_sides">16dp</dimen>
     <dimen name="list_item_height">80dp</dimen>
 
     <dimen name="bottom_action_cart_height">60dp</dimen>
+    <dimen name="photo_product_width_heigh">120dp</dimen>
+    <dimen name="font_size_product_description">12sp</dimen>
+    <dimen name="font_size_product_price_promotion">18sp</dimen>
+    <dimen name="font_size_product_price_original">12sp</dimen>
 </resources>

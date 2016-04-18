@@ -72,13 +72,13 @@ public class TouchedFragment extends Fragment {
         sizeColor2.setSize("10");
         lstColorSizes.add(sizeColor2);
 
-        ProductCartTouchModel model1 = new ProductCartTouchModel("1", "Fashionable Men's Athletic Shoes With Color Matching and Letter", "$14.4", "$12.3", R.drawable.example, lstColorSizes, Constants.PRODUCT_STATUS_NOTHING);
+        ProductCartTouchModel model1 = new ProductCartTouchModel("1", "Fashionable Men's Athletic Shoes With Color Matching and Letter", "14.4", "12.3", R.drawable.shoes10, lstColorSizes, Constants.PRODUCT_STATUS_NOTHING);
         mListProductInTouched.add(model1);
 
-        ProductCartTouchModel model2= new ProductCartTouchModel("2", "Fashionable Men's Athletic Shoes With Color Matching and Letter", "$12.4", "$21.2", R.drawable.example1, lstColorSizes, Constants.PRODUCT_STATUS_NOTHING);
+        ProductCartTouchModel model2= new ProductCartTouchModel("2", "Fashionable Men's Athletic Shoes With Color Matching and Letter", "12.4", "21.2", R.drawable.shoes11, lstColorSizes, Constants.PRODUCT_STATUS_NOTHING);
         mListProductInTouched.add(model2);
 
-        ProductCartTouchModel model3 = new ProductCartTouchModel("3", "Fashionable Men's Athletic Shoes With Color Matching and Letter", "$12.5", "$23.1", R.drawable.example, lstColorSizes, Constants.PRODUCT_STATUS_NOTHING);
+        ProductCartTouchModel model3 = new ProductCartTouchModel("3", "Fashionable Men's Athletic Shoes With Color Matching and Letter", "12.5", "23.1", R.drawable.shoes12, lstColorSizes, Constants.PRODUCT_STATUS_NOTHING);
         mListProductInTouched.add(model3);
 
         Dao<ProductCartTouchModel, Integer> productCartTouchDao;

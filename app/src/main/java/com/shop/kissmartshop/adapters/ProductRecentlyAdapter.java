@@ -1,7 +1,9 @@
 package com.shop.kissmartshop.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
+import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.shop.kissmartshop.R;
+import com.shop.kissmartshop.activities.ProductDetailActivity;
 import com.shop.kissmartshop.model.ProductRecentActivitiesModel;
 import com.shop.kissmartshop.utils.Constants;
 
@@ -43,7 +46,7 @@ public class ProductRecentlyAdapter extends RecyclerView.Adapter<ProductRecently
     }
 
     @Override
-    public void onBindViewHolder(ProductViewHolder productViewHolder, int i) {
+    public void onBindViewHolder(ProductViewHolder productViewHolder, final int i) {
         productViewHolder.productDescription.setText(mLstProducts.get(i).getDescription());
         productViewHolder.pricePromotion.setText(mLstProducts.get(i).getPricePromotion());
         productViewHolder.priceOriginal.setText(mLstProducts.get(i).getPriceOriginal());
@@ -100,6 +103,16 @@ public class ProductRecentlyAdapter extends RecyclerView.Adapter<ProductRecently
         }
 
         productViewHolder.priceOriginal.setPaintFlags(productViewHolder.priceOriginal.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+        productViewHolder.cvProductInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProductRecentActivitiesModel product = mLstProducts.get(i);
+                Intent iProductDetail = new Intent(mContext, ProductDetailActivity.class);
+                iProductDetail.putExtra(Constants.EXTRA_PRODUCT_DETAIL, product);
+                mContext.startActivity(iProductDetail);
+            }
+        });
     }
 
     @Override

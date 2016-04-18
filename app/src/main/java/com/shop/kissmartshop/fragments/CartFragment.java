@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.j256.ormlite.dao.Dao;
 import com.shop.kissmartshop.R;
@@ -40,6 +41,7 @@ public class CartFragment extends Fragment{
     private Button mButtonCheckout;
     private ProductCartAdapter mProductCartAdapter;
     private LinearLayout mLinearLayoutBottomAction;
+    private TextView mTextViewTotalPrice;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,7 @@ public class CartFragment extends Fragment{
         LinearLayoutManager customLayout = new LinearLayoutManager(getActivity());
         mRecyclerViewProductTouched.setLayoutManager(customLayout);
         mLinearLayoutBottomAction = (LinearLayout)view.findViewById(R.id.ln_bottom_action_cart);
+        mTextViewTotalPrice = (TextView)view.findViewById(R.id.tv_total_price);
 
         mProductCartAdapter = new ProductCartAdapter(getActivity(), mListProductInCart);
         mRecyclerViewProductTouched.setAdapter(mProductCartAdapter);
@@ -71,6 +74,7 @@ public class CartFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 if(mButtonCheckout.getText().toString().equalsIgnoreCase(getResources().getString(R.string.check_out))) {
+//                    calculatePrice();
                     mButtonTry.setVisibility(View.GONE);
                     mButtonCheckout.setText(getResources().getString(R.string.pay_now));
                 } else {
@@ -102,6 +106,15 @@ public class CartFragment extends Fragment{
         return view;
     }
 
+    private void calculatePrice()
+    {
+        double totalPrice = 0.0;
+        for(ProductCartTouchModel product : mListProductInCart){
+            totalPrice += Double.parseDouble(product.getPricePromotion().toString());
+        }
+        mTextViewTotalPrice.setText(String.format("$%.2f", totalPrice));
+    }
+
     private void checkExistProduct()
     {
         if(mListProductInCart.size() > 0){
@@ -116,33 +129,10 @@ public class CartFragment extends Fragment{
         mListProductInCart.clear();
         mListProductInCart.addAll(CommonUtils.lstProductCart);
 
-//        Dao<ProductCartTouchModel, Integer> productCartTouchDao;
-//        try {
-//            productCartTouchDao =((TouchCartActivity)getActivity()).getHelper().getProductCartTouchDao();
-//            mListProductInCart.addAll(productCartTouchDao.queryForAll());
-//        }catch (Exception e){}
         mProductCartAdapter.updateData(mListProductInCart);
         checkExistProduct();
+        calculatePrice();
     }
-
-//    private void initializeData(){
-//        mListProductInCart = new ArrayList<>();
-//
-//        List<SizeColorModel> lstColorSizes = new ArrayList<>();
-//        SizeColorModel sizeColor1 = new SizeColorModel();
-//        sizeColor1.setColor("#111111");
-//        sizeColor1.setSize("12");
-//        lstColorSizes.add(sizeColor1);
-//
-//        SizeColorModel sizeColor2 = new SizeColorModel();
-//        sizeColor2.setColor("#1122ee");
-//        sizeColor2.setSize("10");
-//        lstColorSizes.add(sizeColor2);
-//
-//        mListProductInCart.add(new ProductCartTouchModel("Fashionable Men's Athletic Shoes With Color Matching and Letter", "$14.4", "$12.3", R.drawable.example, lstColorSizes, Constants.PRODUCT_STATUS_NOTHING));
-//        mListProductInCart.add(new ProductCartTouchModel("Fashionable Men's Athletic Shoes With Color Matching and Letter", "$12.4", "$21.2", R.drawable.example1, lstColorSizes, Constants.PRODUCT_STATUS_NOTHING));
-//        mListProductInCart.add(new ProductCartTouchModel("Fashionable Men's Athletic Shoes With Color Matching and Letter", "$12.5", "$23.1", R.drawable.example, lstColorSizes, Constants.PRODUCT_STATUS_NOTHING));
-//    }
 
     private Handler mHanlderProductUpdateStatus = new Handler(){
         @Override

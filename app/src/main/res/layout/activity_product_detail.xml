@@ -57,7 +57,8 @@
                         android:paddingTop="40dp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
-                        <TextView
+                        <com.devspark.robototextview.widget.RobotoTextView
+                            app:typeface="roboto_light"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="2.5"
@@ -72,13 +73,15 @@
                             android:layout_weight="1"
                             android:gravity="right"
                             android:orientation="horizontal">
-                            <TextView
+                            <com.devspark.robototextview.widget.RobotoTextView
+                                app:typeface="roboto_light"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="12sp"
                                 android:textColor="@color/pink"
                                 android:text="$"/>
-                            <TextView
+                            <com.devspark.robototextview.widget.RobotoTextView
+                                app:typeface="roboto_light"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="25sp"
@@ -86,16 +89,31 @@
                                 android:text="13.2"
                                 android:id="@+id/tv_product_price_promotion"/>
                         </LinearLayout>
-                        <TextView
+                        <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:paddingRight="10dp"
                             android:gravity="right"
-                            android:textSize="15sp"
-                            android:textColor="@color/grey"
-                            android:text="$12.24"
-                            android:id="@+id/tv_price_original"/>
+                            android:paddingRight="10dp"
+                            android:orientation="horizontal">
+                            <com.devspark.robototextview.widget.RobotoTextView
+                                app:typeface="roboto_light"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="2dp"
+                                android:textSize="@dimen/font_size_product_price_original"
+                                android:textColor="@color/grey"
+                                android:text="$"/>
+                            <com.devspark.robototextview.widget.RobotoTextView
+                                app:typeface="roboto_light"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="right"
+                                android:textSize="@dimen/font_size_product_price_original"
+                                android:textColor="@color/grey"
+                                android:text="12.24"
+                                android:id="@+id/tv_price_original"/>
+                        </LinearLayout>
                     </LinearLayout>
 
                     <View android:layout_width="match_parent"
@@ -165,12 +183,14 @@
                         android:paddingLeft="25dp"
                         android:orientation="horizontal"
                         android:id="@+id/ln_add_to_cart">
-                        <TextView
+                        <com.devspark.robototextview.widget.RobotoTextView
+                            app:typeface="roboto_light"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="30dp"
                             android:text="@string/add_to_cart"/>
-                        <TextView
+                        <com.devspark.robototextview.widget.RobotoTextView
+                            app:typeface="roboto_light"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="25dp"
@@ -179,7 +199,8 @@
                             android:text="+"
                             android:id="@+id/tv_number_add_to_card"/>
                     </LinearLayout>
-                    <TextView
+                    <com.devspark.robototextview.widget.RobotoTextView
+                        app:typeface="roboto_light"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginTop="10dp"

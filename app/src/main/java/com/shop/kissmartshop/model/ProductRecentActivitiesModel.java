@@ -1,13 +1,12 @@
 package com.shop.kissmartshop.model;
 
-import com.shop.kissmartshop.utils.Constants;
 
-import java.util.List;
+import java.io.Serializable;
 
 /**
  * Created by LENOVO on 4/12/2016.
  */
-public class ProductRecentActivitiesModel {
+public class ProductRecentActivitiesModel implements Serializable {
     private String description;
     private String pricePromotion;
     private String priceOriginal;
@@ -28,6 +27,7 @@ public class ProductRecentActivitiesModel {
         this.amountOfBuy = amountOfBuy;
         this.productState = prodState;
     }
+
 
     public String getDescription() {
         return description;
@@ -92,4 +92,5 @@ public class ProductRecentActivitiesModel {
     public void setProductState(int productState) {
         this.productState = productState;
     }
+
 }

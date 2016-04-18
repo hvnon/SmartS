@@ -18,4 +18,6 @@ public class Constants {
     public static final int PAYMENT_FAILED = 1;
     public static final int PAYMENT_CANCEL = 2;
 
+    public static final String EXTRA_PRODUCT_DETAIL = "product_detail";
+
 }

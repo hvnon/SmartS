@@ -9,6 +9,7 @@ import com.shop.kissmartshop.adapters.ProductPagerAdapter;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.ScrollView;
 
 import com.shop.kissmartshop.adapters.ProductRecentlyAdapter;
 import com.shop.kissmartshop.model.ProductRecentActivitiesModel;
@@ -26,6 +27,7 @@ public class RecentlyActivitiesActivity extends BaseActivity {
     private ProductPagerAdapter mProductPagerAdapter;
     private RecyclerView mRecyclerViewRecentlyActivities;
     private CirclePageIndicator mPageIndicatorProduct;
+    private ScrollView mScrollViewActivities;
 
     private List<ProductRecentActivitiesModel> lstProductRecently;
 
@@ -40,8 +42,13 @@ public class RecentlyActivitiesActivity extends BaseActivity {
         mViewPagerProduct = (ViewPager)findViewById(R.id.pager_product);
         mRecyclerViewRecentlyActivities = (RecyclerView)findViewById(R.id.recycler_view_list_recently_activities);
         mPageIndicatorProduct = (CirclePageIndicator)findViewById(R.id.page_indicator_product);
+        mScrollViewActivities = (ScrollView)findViewById(R.id.sv_product_content);
 
-        mProductPagerAdapter = new ProductPagerAdapter(this);
+        List<Integer> lstProductPhotos = new ArrayList<>();
+        lstProductPhotos.add(R.drawable.slider1);
+        lstProductPhotos.add(R.drawable.slider2);
+        lstProductPhotos.add(R.drawable.slider3);
+        mProductPagerAdapter = new ProductPagerAdapter(this, lstProductPhotos);
         mViewPagerProduct.setAdapter(mProductPagerAdapter);
 
         mRecyclerViewRecentlyActivities.setNestedScrollingEnabled(false);
@@ -60,9 +67,9 @@ public class RecentlyActivitiesActivity extends BaseActivity {
 
     private void initializeData(){
         lstProductRecently = new ArrayList<>();
-        lstProductRecently.add(new ProductRecentActivitiesModel("Fashionable Men's Athletic Shoes With Color Matching and Letter", "$14.4", "$12.3", R.drawable.example, 50, 10, 2, Constants.PRODUCT_STATE_BUYING));
-        lstProductRecently.add(new ProductRecentActivitiesModel("Fashionable Men's Athletic Shoes With Color Matching and Letter", "$12.4", "$21.2", R.drawable.example1, 40,3,2, Constants.PRODUCT_STATE_TOUCHING));
-        lstProductRecently.add(new ProductRecentActivitiesModel("Fashionable Men's Athletic Shoes With Color Matching and Letter", "$12.5", "$23.1", R.drawable.example, 45, 5, 6, Constants.PRODUCT_STATE_TRYING));
-        lstProductRecently.add(new ProductRecentActivitiesModel("Fashionable Men's Athletic Shoes With Color Matching and Letter", "$12.5", "$23.1", R.drawable.example, 45, 5, 6, Constants.PRODUCT_STATE_TRYING));
+        lstProductRecently.add(new ProductRecentActivitiesModel("Fashionable Men's Athletic Shoes With Color Matching and Letter", "17.4", "12.3", R.drawable.shoes1, 50, 10, 2, Constants.PRODUCT_STATE_BUYING));
+        lstProductRecently.add(new ProductRecentActivitiesModel("Fashionable Men's Athletic Shoes With Color Matching and Letter", "12.4", "21.2", R.drawable.shoes2, 40,3,2, Constants.PRODUCT_STATE_TOUCHING));
+        lstProductRecently.add(new ProductRecentActivitiesModel("Fashionable Men's Athletic Shoes With Color Matching and Letter", "12.5", "23.1", R.drawable.shoes3, 45, 5, 6, Constants.PRODUCT_STATE_TRYING));
+        lstProductRecently.add(new ProductRecentActivitiesModel("Fashionable Men's Athletic Shoes With Color Matching and Letter", "12.5", "23.1", R.drawable.shoes4, 45, 5, 6, Constants.PRODUCT_STATE_TRYING));
     }
 }

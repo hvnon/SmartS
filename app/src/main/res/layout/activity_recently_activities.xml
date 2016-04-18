@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.RecentlyActivitiesActivity">
@@ -10,10 +11,12 @@
         android:fillViewport="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/action_bar_bottom">
+        android:layout_above="@+id/action_bar_bottom"
+        android:id="@+id/sv_product_content">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:descendantFocusability="blocksDescendants"
             android:orientation="vertical">
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -28,6 +31,7 @@
                 <com.viewpagerindicator.CirclePageIndicator
                     android:id="@+id/page_indicator_product"
                     android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_height="wrap_content"
                     android:layout_width="fill_parent"
                     android:layout_alignParentBottom="true"
@@ -54,7 +58,8 @@
                         android:layout_height="@dimen/icon_action_height"
                         android:src="@drawable/ic_favourite"
                         android:scaleType="fitXY"/>
-                    <TextView
+                    <com.devspark.robototextview.widget.RobotoTextView
+                        app:typeface="roboto_light"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/grey"
@@ -72,7 +77,8 @@
                         android:layout_width="@dimen/icon_action_width"
                         android:layout_height="@dimen/icon_action_height"
                         android:background="@drawable/ic_love"/>
-                    <TextView
+                    <com.devspark.robototextview.widget.RobotoTextView
+                        app:typeface="roboto_light"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/grey"
@@ -90,7 +96,8 @@
                         android:layout_width="@dimen/icon_action_width"
                         android:layout_height="@dimen/icon_action_height"
                         android:background="@drawable/ic_comment"/>
-                    <TextView
+                    <com.devspark.robototextview.widget.RobotoTextView
+                        app:typeface="roboto_light"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/grey"
@@ -108,7 +115,8 @@
                         android:layout_width="@dimen/icon_action_width"
                         android:layout_height="@dimen/icon_action_height"
                         android:background="@drawable/ic_more"/>
-                    <TextView
+                    <com.devspark.robototextview.widget.RobotoTextView
+                        app:typeface="roboto_light"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/grey"
@@ -129,7 +137,8 @@
                     android:paddingBottom="25dp"
                     android:gravity="center_vertical"
                     android:id="@+id/title">
-                    <TextView
+                    <com.devspark.robototextview.widget.RobotoTextView
+                        app:typeface="roboto_bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Recently Activities"
@@ -175,7 +184,8 @@
                 android:layout_height="@dimen/icon_action_height"
                 android:src="@drawable/ic_sales"
                 android:scaleType="fitXY"/>
-            <TextView
+            <com.devspark.robototextview.widget.RobotoTextView
+                app:typeface="roboto_light"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/grey"
@@ -194,7 +204,8 @@
                 android:layout_height="@dimen/icon_action_height"
                 android:src="@drawable/ic_favourite"
                 android:scaleType="fitXY"/>
-            <TextView
+            <com.devspark.robototextview.widget.RobotoTextView
+                app:typeface="roboto_light"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/grey"
@@ -213,7 +224,8 @@
                 android:layout_height="@dimen/icon_action_height"
                 android:src="@drawable/ic_shop"
                 android:scaleType="fitXY"/>
-            <TextView
+            <com.devspark.robototextview.widget.RobotoTextView
+                app:typeface="roboto_light"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/grey"
@@ -232,7 +244,8 @@
                 android:layout_height="@dimen/icon_action_height"
                 android:src="@drawable/ic_recent"
                 android:scaleType="fitXY"/>
-            <TextView
+            <com.devspark.robototextview.widget.RobotoTextView
+                app:typeface="roboto_light"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/grey"
@@ -251,7 +264,8 @@
                 android:layout_height="@dimen/icon_action_height"
                 android:src="@drawable/ic_cart_bottom_action"
                 android:scaleType="fitXY"/>
-            <TextView
+            <com.devspark.robototextview.widget.RobotoTextView
+                app:typeface="roboto_light"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/grey"
