@@ -13,4 +13,5 @@
     <color name="divier_color">#E3E1DD</color>
     <color name="background_product_detail">#EAEBE8</color>
     <color name="background_bottom_action_product_detail">#F4F6F4</color>
+    <color name="light_grey_blur">#6FD3D3D3</color>
 </resources>

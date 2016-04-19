@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -46,11 +47,15 @@ public class ProductDetailActivity extends BaseActivity {
     private TextView mTextViewNumberAddToCart;
     private TextView mTextViewProductDescription;
     private TextView mTextViewProductPricePromotion;
+    private TextView mTextViewButtonBuy;
+    private Button mButtonTryNow;
     private FloatingActionButton mFABAddToFavourite;
 
     private List<SizeColorModel> mListColorSizes;
     private int numOfAddCart = 0;
     private ProductRecentActivitiesModel mProduct;
+
+    private View mViewDisable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +127,11 @@ public class ProductDetailActivity extends BaseActivity {
             }
         });
 
+        mViewDisable = findViewById(R.id.disable_view);
+        mTextViewButtonBuy = (TextView)findViewById(R.id.tv_button_buy);
+        mButtonTryNow = (Button)findViewById(R.id.btn_try_now);
+
+        enableActionBottom(false);
         popularUI();
         createSizeColorOfProduct();
         createListSize();
@@ -336,6 +346,8 @@ public class ProductDetailActivity extends BaseActivity {
         v.setBackgroundResource(R.drawable.button_selector_blue);
         deselectSize(mLinearLayoutSizeColor, v);
         mTextViewSelected.setText(String.valueOf(value));
+        mViewDisable.setVisibility(View.GONE);
+        enableActionBottom(true);
         TextView tvBgSizeColor = (TextView)mTextViewSelected.getTag();
         tvBgSizeColor.setBackgroundResource(R.drawable.ic_bg_color);
         mLinearLayoutSizeColor.setVisibility(View.GONE);
@@ -352,6 +364,13 @@ public class ProductDetailActivity extends BaseActivity {
                 view.setBackgroundColor(getResources().getColor(R.color.transparent));
             }
         }
+    }
+
+    private void enableActionBottom(boolean enable)
+    {
+        mLinearLayoutAddToCart.setEnabled(enable);
+        mButtonTryNow.setEnabled(enable);
+        mTextViewButtonBuy.setEnabled(enable);
     }
 }
 
