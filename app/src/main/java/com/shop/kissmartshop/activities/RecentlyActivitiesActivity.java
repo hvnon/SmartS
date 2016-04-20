@@ -1,5 +1,8 @@
 package com.shop.kissmartshop.activities;
 
+import android.content.Context;
+import android.content.Intent;
+import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 
@@ -18,7 +21,13 @@ import com.viewpagerindicator.CirclePageIndicator;
 import com.viewpagerindicator.PageIndicator;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
+import pickme.bluestone_sdk.BlueStone;
+import pickme.bluestone_sdk.BluestoneManager;
 
 
 public class RecentlyActivitiesActivity extends BaseActivity {
@@ -31,11 +40,16 @@ public class RecentlyActivitiesActivity extends BaseActivity {
 
     private List<ProductRecentActivitiesModel> lstProductRecently;
 
+    private BluestoneManager mBluestoneManager;
+    private Context mContext;
+    private Boolean isLaunchProductDetail = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recently_activities);
 
+        mContext = this;
         //initActionBar();
         initializeData();
 
@@ -63,6 +77,9 @@ public class RecentlyActivitiesActivity extends BaseActivity {
         mPageIndicatorProduct.setFillColor(getResources().getColor(R.color.pink));
         mPageIndicatorProduct.setStrokeColor(getResources().getColor(R.color.grey));
 
+        mBluestoneManager = new BluestoneManager(this);
+        mBluestoneManager.setListener(mBlueStoneListener);
+        mBluestoneManager.updateRange(-85);
     }
 
     private void initializeData(){
@@ -71,5 +88,40 @@ public class RecentlyActivitiesActivity extends BaseActivity {
         lstProductRecently.add(new ProductRecentActivitiesModel("Fashionable Men's Athletic Shoes With Color Matching and Letter", "12.4", "21.2", R.drawable.shoes2, 40,3,2, Constants.PRODUCT_STATE_TOUCHING));
         lstProductRecently.add(new ProductRecentActivitiesModel("Fashionable Men's Athletic Shoes With Color Matching and Letter", "12.5", "23.1", R.drawable.shoes3, 45, 5, 6, Constants.PRODUCT_STATE_TRYING));
         lstProductRecently.add(new ProductRecentActivitiesModel("Fashionable Men's Athletic Shoes With Color Matching and Letter", "12.5", "23.1", R.drawable.shoes4, 45, 5, 6, Constants.PRODUCT_STATE_TRYING));
+    }
+
+    private BluestoneManager.BlueStoneListener mBlueStoneListener = new BluestoneManager.BlueStoneListener() {
+
+        @Override
+        public void onBlueStoneCallBack(BlueStone blueStone, boolean inRange, String UUID, int major, int minor) {
+//            Product current = products.get(blueStone.id);
+            if (inRange) {
+                if (!isLaunchProductDetail) {
+                    isLaunchProductDetail = true;
+                    ProductRecentActivitiesModel product = lstProductRecently.get(0);
+                    Intent iProductDetail = new Intent(mContext, ProductDetailActivity.class);
+                    iProductDetail.putExtra(Constants.EXTRA_PRODUCT_DETAIL, product);
+                    mContext.startActivity(iProductDetail);
+                }
+            } else {
+                isLaunchProductDetail = false;
+            }
+        }
+
+        @Override
+        public void onScanStart() {
+            invalidateOptionsMenu();
+        }
+
+        @Override
+        public void onScanStop() {
+            invalidateOptionsMenu();
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mBluestoneManager.stopScan();
     }
 }

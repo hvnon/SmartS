@@ -13,29 +13,20 @@ import java.util.List;
 /**
  * Created by LENOVO on 4/14/2016.
  */
-public class ProductCartTouchModel implements Serializable {
+public class ProductCartTouchModel extends ProductModel {
 
-    private static final long serialVersionUID = -222864131214757024L;
-
-    @DatabaseField
     private String productId;
 
-    @DatabaseField
     private String description;
 
-    @DatabaseField
     private String pricePromotion;
 
-    @DatabaseField
     private String priceOriginal;
 
-    @DatabaseField
     private int photoId;
 
-    @ForeignCollectionField
     private List<SizeColorModel> lstSizeColors;
 
-    @DatabaseField
     private int prodStatus;
 
 

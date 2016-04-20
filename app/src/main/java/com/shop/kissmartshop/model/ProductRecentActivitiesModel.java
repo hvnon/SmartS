@@ -6,7 +6,8 @@ import java.io.Serializable;
 /**
  * Created by LENOVO on 4/12/2016.
  */
-public class ProductRecentActivitiesModel implements Serializable {
+public class ProductRecentActivitiesModel extends ProductModel {
+
     private String description;
     private String pricePromotion;
     private String priceOriginal;

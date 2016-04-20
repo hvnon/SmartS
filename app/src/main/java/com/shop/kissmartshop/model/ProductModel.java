@@ -2,92 +2,56 @@ package com.shop.kissmartshop.model;
 
 import com.shop.kissmartshop.utils.Constants;
 
+import java.io.Serializable;
+
 /**
  * Created by LENOVO on 4/12/2016.
  */
-public class ProductModel {
-    private String description;
-    private String pricePromotion;
-    private String priceOriginal;
-    private int photoId;
-    private int amountOfTouch;
-    private int amountOfTry;
-    private int amountOfBuy;
-    private int productState;
+public class ProductModel implements Serializable {
 
-    public ProductModel(String description, String pricePromotion, String priceOriginal, int photoId, int amountOfTouch, int amountOfTry, int amountOfBuy, int prodState)
-    {
-        this.description = description;
-        this.priceOriginal = priceOriginal;
-        this.pricePromotion = pricePromotion;
-        this.photoId = photoId;
-        this.amountOfTouch = amountOfTouch;
-        this.amountOfTry = amountOfTry;
-        this.amountOfBuy = amountOfBuy;
-        this.productState = prodState;
+    protected String product_id;
+    protected String product_name;
+    protected String price;
+    protected String bluestone;
+    protected String image;
+
+    public String getProduct_id() {
+        return product_id;
     }
 
-    public String getDescription() {
-        return description;
+    public void setProduct_id(String product_id) {
+        this.product_id = product_id;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public String getProduct_name() {
+        return product_name;
     }
 
-    public String getPricePromotion() {
-        return pricePromotion;
+    public void setProduct_name(String product_name) {
+        this.product_name = product_name;
     }
 
-    public void setPricePromotion(String pricePromotion) {
-        this.pricePromotion = pricePromotion;
+    public String getPrice() {
+        return price;
     }
 
-    public String getPriceOriginal() {
-        return priceOriginal;
+    public void setPrice(String price) {
+        this.price = price;
     }
 
-    public void setPriceOriginal(String priceOriginal) {
-        this.priceOriginal = priceOriginal;
+    public String getBluestone() {
+        return bluestone;
     }
 
-    public int getPhotoId() {
-        return photoId;
+    public void setBluestone(String bluestone) {
+        this.bluestone = bluestone;
     }
 
-    public void setPhotoId(int photoId) {
-        this.photoId = photoId;
+    public String getImage() {
+        return image;
     }
 
-    public int getAmountOfTouch() {
-        return amountOfTouch;
-    }
-
-    public void setAmountOfTouch(int amountOfTouch) {
-        this.amountOfTouch = amountOfTouch;
-    }
-
-    public int getAmountOfTry() {
-        return amountOfTry;
-    }
-
-    public void setAmountOfTry(int amountOfTry) {
-        this.amountOfTry = amountOfTry;
-    }
-
-    public int getAmountOfBuy() {
-        return amountOfBuy;
-    }
-
-    public void setAmountOfBuy(int amountOfBuy) {
-        this.amountOfBuy = amountOfBuy;
-    }
-
-    public int getProductState() {
-        return productState;
-    }
-
-    public void setProductState(int productState) {
-        this.productState = productState;
+    public void setImage(String image) {
+        this.image = image;
     }
 }
