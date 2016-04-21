@@ -32,4 +32,6 @@
     <string name="add_to_cart">ADD TO CART</string>
     <string name="button_buy">BUY</string>
     <string name="try_now">TRY NOW</string>
+    <string name="title_activity_user_profile">CUSTOMER</string>
+    <string name="connecting">Connecting...</string>
 </resources>

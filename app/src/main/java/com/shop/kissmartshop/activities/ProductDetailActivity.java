@@ -56,6 +56,7 @@ public class ProductDetailActivity extends BaseActivity {
     private ProductRecentActivitiesModel mProduct;
 
     private View mViewDisable;
+    private List<Integer> mLstProductPhotos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +68,11 @@ public class ProductDetailActivity extends BaseActivity {
         mViewPagerProduct = (DirectionalViewPager)findViewById(R.id.view_pager_product);
         mViewPagerProduct.setOrientation(DirectionalViewPager.VERTICAL);
 
-        final List<Integer> lstProductPhotos = new ArrayList<>();
-        lstProductPhotos.add(mProduct.getPhotoId());
-        lstProductPhotos.add(R.drawable.shoes11);
-        lstProductPhotos.add(R.drawable.shoes12);
-        ProductPagerAdapter adapter = new ProductPagerAdapter(this, lstProductPhotos);
+        mLstProductPhotos = new ArrayList<>();
+        mLstProductPhotos.add(mProduct.getPhotoId());
+        mLstProductPhotos.add(R.drawable.shoes11);
+        mLstProductPhotos.add(R.drawable.shoes12);
+        ProductPagerAdapter adapter = new ProductPagerAdapter(this, mLstProductPhotos);
         mViewPagerProduct.setAdapter(adapter);
 
         mPageIndicatorProduct = (CirclePageIndicator)findViewById(R.id.page_indicator_product);
@@ -92,29 +93,7 @@ public class ProductDetailActivity extends BaseActivity {
         mLinearLayoutAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                numOfAddCart += 1;
-                mTextViewNumberAddToCart.setText(String.format("(%d)", numOfAddCart));
-                if (mListColorSizes == null) {
-                    mListColorSizes = new ArrayList<SizeColorModel>();
-                }
-                mListColorSizes.clear();
-                getListValueOfColorSize(mLinearLayoutProductSizeColors);
-
-                String prodId = String.valueOf(numOfAddCart);
-                String prodDes = mTextViewProductDescription.getText().toString();
-                String prodPriceOriginal = mTextViewProductPriceOriginal.getText().toString();
-                String prodPricePromotion = mTextViewProductPricePromotion.getText().toString();
-
-                ProductCartTouchModel product = new ProductCartTouchModel();
-                product.setProductId(prodId);
-                product.setDescription(prodDes);
-                product.setLstSizeColors(mListColorSizes);
-                product.setPriceOriginal(prodPriceOriginal);
-                product.setPricePromotion(prodPricePromotion);
-                product.setPhotoId(lstProductPhotos.get(0));
-                CommonUtils.lstProductCart.add(product);
-
-                onUpdateCartNumber(1);
+               addProductToCart();
             }
         });
 
@@ -130,11 +109,44 @@ public class ProductDetailActivity extends BaseActivity {
         mViewDisable = findViewById(R.id.disable_view);
         mTextViewButtonBuy = (TextView)findViewById(R.id.tv_button_buy);
         mButtonTryNow = (Button)findViewById(R.id.btn_try_now);
-
+        mButtonTryNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addProductToCart();
+                onCartInfo();
+            }
+        });
         enableActionBottom(false);
         popularUI();
         createSizeColorOfProduct();
         createListSize();
+    }
+
+    private void addProductToCart()
+    {
+        numOfAddCart += 1;
+        mTextViewNumberAddToCart.setText(String.format("(%d)", numOfAddCart));
+        if (mListColorSizes == null) {
+            mListColorSizes = new ArrayList<SizeColorModel>();
+        }
+        mListColorSizes.clear();
+        getListValueOfColorSize(mLinearLayoutProductSizeColors);
+
+        String prodId = String.valueOf(numOfAddCart);
+        String prodDes = mTextViewProductDescription.getText().toString();
+        String prodPriceOriginal = mTextViewProductPriceOriginal.getText().toString();
+        String prodPricePromotion = mTextViewProductPricePromotion.getText().toString();
+
+        ProductCartTouchModel product = new ProductCartTouchModel();
+        product.setProduct_id(mProduct.getProduct_id());
+        product.setDescription(prodDes);
+        product.setLstSizeColors(mListColorSizes);
+        product.setPriceOriginal(prodPriceOriginal);
+        product.setPricePromotion(prodPricePromotion);
+        product.setPhotoId(mLstProductPhotos.get(0));
+        CommonUtils.lstProductCart.add(product);
+
+        onUpdateIncreaseCartNumber();
     }
 
     private void popularUI()
@@ -204,7 +216,7 @@ public class ProductDetailActivity extends BaseActivity {
             ImageView ivSizeIcon = new ImageView(this);
             LinearLayout.LayoutParams paramSizeIcon = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             ivSizeIcon.setLayoutParams(paramSizeIcon);
-            ivSizeIcon.setImageResource(R.drawable.ic_cart_bottom_action);
+            ivSizeIcon.setImageResource(R.drawable.ic_arrow_down);
             ivSizeIcon.setVisibility(View.GONE);
 
             lnSizeColor.addView(ivSizeIcon);
@@ -332,7 +344,7 @@ public class ProductDetailActivity extends BaseActivity {
             } else if ((view instanceof TextView)) {
                 String val = ((TextView)view).getText().toString();
                 if(value.equalsIgnoreCase(val)) {
-                    view.setBackgroundResource(R.drawable.button_selector_blue);
+                    view.setBackgroundResource(R.drawable.ico_size_selection);
                 } else {
                     view.setBackgroundColor(getResources().getColor(R.color.transparent));
                 }

@@ -15,7 +15,6 @@ import java.util.List;
  */
 public class ProductCartTouchModel extends ProductModel {
 
-    private String productId;
 
     private String description;
 
@@ -32,9 +31,8 @@ public class ProductCartTouchModel extends ProductModel {
 
     public ProductCartTouchModel(){}
 
-    public ProductCartTouchModel(String productId, String description, String pricePromotion, String priceOriginal, int photoId, List<SizeColorModel> lstSizeColors, int prodStatus)
+    public ProductCartTouchModel(String description, String pricePromotion, String priceOriginal, int photoId, List<SizeColorModel> lstSizeColors, int prodStatus)
     {
-        this.productId = productId;
         this.description = description;
         this.pricePromotion = pricePromotion;
         this.priceOriginal = priceOriginal;
@@ -43,13 +41,6 @@ public class ProductCartTouchModel extends ProductModel {
         this.prodStatus = prodStatus;
     }
 
-    public String getProductId() {
-        return productId;
-    }
-
-    public void setProductId(String productId) {
-        this.productId = productId;
-    }
 
     public String getDescription() {
         return description;

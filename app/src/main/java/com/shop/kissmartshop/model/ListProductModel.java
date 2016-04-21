@@ -7,4 +7,8 @@ import java.util.List;
  */
 public class ListProductModel {
     List<ProductModel> products;
+
+    public List<ProductModel> getProducts() {
+        return products;
+    }
 }

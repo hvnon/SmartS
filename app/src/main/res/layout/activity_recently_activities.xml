@@ -258,7 +258,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:id="@+id/ln_cart">
             <ImageView
                 android:layout_width="@dimen/icon_action_width"
                 android:layout_height="@dimen/icon_action_height"

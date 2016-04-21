@@ -35,7 +35,8 @@ dependencies {
     compile files('libs/android-directionalviewpager-1.2.1fixed.jar')
     compile 'com.github.johnkil.android-robototextview:robototextview:2.5.0'
     compile 'no.nordicsemi.android:dfu:0.6.2'
-    compile 'pickme.bluestone_sdk:bluestone-sdk:0.0.11'
+    compile 'pickme.bluestone_sdk:bluestone-sdk:0.0.15'
     compile 'com.squareup.retrofit2:retrofit:2.0.1'
     compile 'com.squareup.retrofit2:converter-gson:2.0+'
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }

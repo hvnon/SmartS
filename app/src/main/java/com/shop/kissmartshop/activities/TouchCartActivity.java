@@ -52,6 +52,8 @@ public class TouchCartActivity extends BaseActivity {
                 }
             }
         });
+
+        mViewPager.setCurrentItem(1);
     }
 
     public DatabaseHelper getHelper() {

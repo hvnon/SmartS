@@ -23,4 +23,5 @@
     <dimen name="font_size_product_description">12sp</dimen>
     <dimen name="font_size_product_price_promotion">18sp</dimen>
     <dimen name="font_size_product_price_original">12sp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

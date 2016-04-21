@@ -88,6 +88,17 @@ public class BaseActivity extends AppCompatActivity {
 
     }
 
+    protected void setTitle(String title)
+    {
+        mTextViewTitle.setText(title);
+    }
+
+    protected void hideActionButton()
+    {
+        mRelativeLayoutCart.setVisibility(View.GONE);
+        mSearch.setVisibility(View.GONE);
+    }
+
     protected void onCartInfo()
     {
         Intent iTouchCart = new Intent(getApplicationContext(), TouchCartActivity.class);
@@ -107,9 +118,9 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected void onUpdateCartNumber(int number)
+    protected void onUpdateIncreaseCartNumber()
     {
-        CommonUtils.countProdInCart += number;
+        CommonUtils.countProdInCart += 1;
         if (mTextViewCartNumber != null){
             mTextViewCartNumber.setVisibility(View.VISIBLE);
             mTextViewCartNumber.setText(String.valueOf(CommonUtils.countProdInCart));

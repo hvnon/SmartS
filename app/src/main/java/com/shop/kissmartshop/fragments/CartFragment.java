@@ -73,7 +73,7 @@ public class CartFragment extends Fragment{
         mButtonCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mButtonCheckout.getText().toString().equalsIgnoreCase(getResources().getString(R.string.check_out))) {
+                if (mButtonCheckout.getText().toString().equalsIgnoreCase(getResources().getString(R.string.check_out))) {
 //                    calculatePrice();
                     mButtonTry.setVisibility(View.GONE);
                     mButtonCheckout.setText(getResources().getString(R.string.pay_now));
@@ -101,7 +101,7 @@ public class CartFragment extends Fragment{
             }
         });
 
-
+        updateData();
 
         return view;
     }
@@ -126,12 +126,18 @@ public class CartFragment extends Fragment{
 
     public void updateData()
     {
-        mListProductInCart.clear();
-        mListProductInCart.addAll(CommonUtils.lstProductCart);
+        if(mListProductInCart != null) {
+            mListProductInCart.clear();
+            mListProductInCart.addAll(CommonUtils.lstProductCart);
 
-        mProductCartAdapter.updateData(mListProductInCart);
-        checkExistProduct();
-        calculatePrice();
+
+            if (mProductCartAdapter != null) {
+                mProductCartAdapter.updateData(mListProductInCart);
+            }
+            checkExistProduct();
+            calculatePrice();
+        }
+
     }
 
     private Handler mHanlderProductUpdateStatus = new Handler(){

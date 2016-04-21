@@ -19,7 +19,9 @@ import com.shop.kissmartshop.R;
 import com.shop.kissmartshop.model.ProductCartTouchModel;
 import com.shop.kissmartshop.model.SizeColorModel;
 import com.shop.kissmartshop.utils.CommonUtils;
+import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -33,7 +35,8 @@ public class ProductTouchAdapter extends RecyclerSwipeAdapter<ProductTouchAdapte
 
     public ProductTouchAdapter(Context context, List<ProductCartTouchModel> products){
         this.mContext = context;
-        this.mLstProducts = products;
+        this.mLstProducts = new ArrayList<>();
+        this.mLstProducts.addAll(products);
     }
 
     @Override
@@ -47,16 +50,25 @@ public class ProductTouchAdapter extends RecyclerSwipeAdapter<ProductTouchAdapte
         return new ProductViewHolder(view);
     }
 
+    public void updateData(List<ProductCartTouchModel> lstProducts)
+    {
+        mLstProducts.clear();
+        mLstProducts.addAll(lstProducts);
+        notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(final ProductViewHolder productViewHolder, final int i) {
         productViewHolder.mTextViewProductDescription.setText(mLstProducts.get(i).getDescription());
         productViewHolder.mTextViewPricePromotion.setText(mLstProducts.get(i).getPricePromotion());
         productViewHolder.mTextViewPriceOriginal.setText(mLstProducts.get(i).getPriceOriginal());
-        productViewHolder.mImageViewProductPhoto.setImageResource(mLstProducts.get(i).getPhotoId());
+//        productViewHolder.mImageViewProductPhoto.setImageResource(mLstProducts.get(i).getPhotoId());
+        Picasso.with(mContext).load(mLstProducts.get(i).getImage()).into(productViewHolder.mImageViewProductPhoto);
 
         productViewHolder.mTextViewProdStatus.setVisibility(View.GONE);
 
         Collection<SizeColorModel> lstSizeColors = mLstProducts.get(i).getLstSizeColors();
+        productViewHolder.mLnSizeColor.removeAllViews();
         for(SizeColorModel mode : lstSizeColors) {
             TextView tvSizeColor = new TextView(mContext);
             tvSizeColor.setText(mode.getSize());

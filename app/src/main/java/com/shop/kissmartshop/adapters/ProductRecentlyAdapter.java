@@ -16,6 +16,7 @@ import com.shop.kissmartshop.R;
 import com.shop.kissmartshop.activities.ProductDetailActivity;
 import com.shop.kissmartshop.model.ProductRecentActivitiesModel;
 import com.shop.kissmartshop.utils.Constants;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,12 +46,20 @@ public class ProductRecentlyAdapter extends RecyclerView.Adapter<ProductRecently
         return new ProductViewHolder(view);
     }
 
+    public void updateData(List<ProductRecentActivitiesModel> lstProducts)
+    {
+        mLstProducts.clear();
+        mLstProducts.addAll(lstProducts);
+        notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(ProductViewHolder productViewHolder, final int i) {
         productViewHolder.productDescription.setText(mLstProducts.get(i).getDescription());
         productViewHolder.pricePromotion.setText(mLstProducts.get(i).getPricePromotion());
         productViewHolder.priceOriginal.setText(mLstProducts.get(i).getPriceOriginal());
-        productViewHolder.productPhoto.setImageResource(mLstProducts.get(i).getPhotoId());
+//        productViewHolder.productPhoto.setImageResource(mLstProducts.get(i).getPhotoId());
+        Picasso.with(mContext).load(mLstProducts.get(i).getImage()).into(productViewHolder.productPhoto);
 
         productViewHolder.amountOfTouch.setText(String.valueOf(mLstProducts.get(i).getAmountOfTouch()));
         productViewHolder.amountOfTry.setText(String.valueOf(mLstProducts.get(i).getAmountOfTry()));
