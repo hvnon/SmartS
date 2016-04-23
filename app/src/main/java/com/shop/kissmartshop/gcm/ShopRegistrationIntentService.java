@@ -11,6 +11,7 @@ import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 import com.shop.kissmartshop.R;
+import com.shop.kissmartshop.utils.CommonUtils;
 
 import java.io.IOException;
 
@@ -73,6 +74,7 @@ public class ShopRegistrationIntentService extends IntentService {
      */
     private void sendRegistrationToServer(String token) {
         // Add custom implementation, as needed.
+        CommonUtils.token = token;
     }
 
     /**

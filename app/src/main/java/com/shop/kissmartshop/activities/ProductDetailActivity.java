@@ -4,10 +4,9 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.DirectionalViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.devspark.robototextview.util.RobotoTypefaceManager;
 import com.devspark.robototextview.util.RobotoTypefaceUtils;
@@ -144,6 +142,7 @@ public class ProductDetailActivity extends BaseActivity {
         product.setPriceOriginal(prodPriceOriginal);
         product.setPricePromotion(prodPricePromotion);
         product.setPhotoId(mLstProductPhotos.get(0));
+        product.setImage(mProduct.getImage());
         CommonUtils.lstProductCart.add(product);
 
         onUpdateIncreaseCartNumber();

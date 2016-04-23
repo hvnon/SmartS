@@ -81,7 +81,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="2dp"
-                            android:textSize="12sp"
+                            android:textSize="@dimen/font_size_product_price_original"
                             android:text="$"/>
                         <com.devspark.robototextview.widget.RobotoTextView
                             app:typeface="roboto_light"

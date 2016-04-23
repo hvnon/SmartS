@@ -6,29 +6,23 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.j256.ormlite.dao.Dao;
 import com.shop.kissmartshop.R;
-import com.shop.kissmartshop.activities.TouchCartActivity;
 import com.shop.kissmartshop.adapters.ProductTouchAdapter;
 import com.shop.kissmartshop.api.APIHelper;
 import com.shop.kissmartshop.custom.SimpleDividerItemDecoration;
-import com.shop.kissmartshop.data.DatabaseHelper;
-import com.shop.kissmartshop.model.ListProductModel;
 import com.shop.kissmartshop.model.ProductCartTouchModel;
 import com.shop.kissmartshop.model.ProductModel;
-import com.shop.kissmartshop.model.ProductRecentActivitiesModel;
+import com.shop.kissmartshop.model.ProductPickupModel;
+import com.shop.kissmartshop.model.ProductTouchedModel;
 import com.shop.kissmartshop.model.SizeColorModel;
 import com.shop.kissmartshop.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by LENOVO on 4/13/2016.
@@ -68,7 +62,7 @@ public class TouchedFragment extends Fragment {
 
     private void initializeData(){
         mListProductInTouched = new ArrayList<>();
-        (new APIHelper()).getProducts(getActivity(), mHanlderGetProduct);
+        (new APIHelper()).getTouchedProducts(getActivity(), mHanlderGetProduct);
 
 //        List<SizeColorModel> lstColorSizes = new ArrayList<>();
 //        SizeColorModel sizeColor1 = new SizeColorModel();
@@ -104,29 +98,50 @@ public class TouchedFragment extends Fragment {
     private Handler mHanlderGetProduct = new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            ListProductModel products = (ListProductModel)msg.obj;
+            ProductTouchedModel touchedProduct = (ProductTouchedModel)msg.obj;
+            for(ProductPickupModel prodPickup : touchedProduct.getPickups()) {
+                for(ProductModel prod : prodPickup.getProducts()) {
+                    List<SizeColorModel> lstColorSizes = new ArrayList<>();
+                    SizeColorModel sizeColor1 = new SizeColorModel();
+                    sizeColor1.setColor("#111111");
+                    sizeColor1.setSize("12");
+                    lstColorSizes.add(sizeColor1);
 
-            for(ProductModel product : products.getProducts()) {
+                    SizeColorModel sizeColor2 = new SizeColorModel();
+                    sizeColor2.setColor("#1122ee");
+                    sizeColor2.setSize("10");
+                    lstColorSizes.add(sizeColor2);
 
-                List<SizeColorModel> lstColorSizes = new ArrayList<>();
-                SizeColorModel sizeColor1 = new SizeColorModel();
-                sizeColor1.setColor("#111111");
-                sizeColor1.setSize("12");
-                lstColorSizes.add(sizeColor1);
+                    ProductCartTouchModel model = new ProductCartTouchModel(prod.getProduct_name(), prod.getPrice(), "2.30", R.drawable.shoes10, lstColorSizes, Constants.PRODUCT_STATUS_NOTHING);
+                    model.setProduct_id(prod.getProduct_id());
+                    model.setImage(prod.getImage());
+                    model.setProduct_name(prod.getProduct_name());
+                    model.setBluestone(prod.getBluestone());
+                    mListProductInTouched.add(model);
+                }
 
-                SizeColorModel sizeColor2 = new SizeColorModel();
-                sizeColor2.setColor("#1122ee");
-                sizeColor2.setSize("10");
-                lstColorSizes.add(sizeColor2);
-
-                ProductCartTouchModel model = new ProductCartTouchModel(product.getProduct_name(), product.getPrice(), "12.3", R.drawable.shoes10, lstColorSizes, Constants.PRODUCT_STATUS_NOTHING);
-                model.setProduct_id(product.getProduct_id());
-                model.setImage(product.getImage());
-                model.setProduct_name(product.getProduct_name());
-                mListProductInTouched.add(model);
             }
-
             mProductAdapter.updateData(mListProductInTouched);
+
+//            for (ProductModel product : products.getProducts()) {
+//
+//                List<SizeColorModel> lstColorSizes = new ArrayList<>();
+//                SizeColorModel sizeColor1 = new SizeColorModel();
+//                sizeColor1.setColor("#111111");
+//                sizeColor1.setSize("12");
+//                lstColorSizes.add(sizeColor1);
+//
+//                SizeColorModel sizeColor2 = new SizeColorModel();
+//                sizeColor2.setColor("#1122ee");
+//                sizeColor2.setSize("10");
+//                lstColorSizes.add(sizeColor2);
+//
+//                ProductCartTouchModel model = new ProductCartTouchModel(product.getProduct_name(), product.getPrice(), "12.3", R.drawable.shoes10, lstColorSizes, Constants.PRODUCT_STATUS_NOTHING);
+//                model.setProduct_id(product.getProduct_id());
+//                model.setImage(product.getImage());
+//                model.setProduct_name(product.getProduct_name());
+//                mListProductInTouched.add(model);
+//            }
 
         }
     };

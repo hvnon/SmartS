@@ -4,8 +4,8 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="icon_action_width">20dp</dimen>
     <dimen name="icon_action_height">20dp</dimen>
-    <dimen name="icon_arrow_back_width">30dp</dimen>
-    <dimen name="icon_arrow_back_height">20dp</dimen>
+    <dimen name="icon_arrow_back_width">35dp</dimen>
+    <dimen name="icon_arrow_back_height">25dp</dimen>
     <dimen name="slide_image_height">180dp</dimen>
 
     <dimen name="action_bar_recently_activities">60dp</dimen>
@@ -22,6 +22,6 @@
     <dimen name="photo_product_width_heigh">120dp</dimen>
     <dimen name="font_size_product_description">12sp</dimen>
     <dimen name="font_size_product_price_promotion">18sp</dimen>
-    <dimen name="font_size_product_price_original">12sp</dimen>
+    <dimen name="font_size_product_price_original">10sp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 </resources>

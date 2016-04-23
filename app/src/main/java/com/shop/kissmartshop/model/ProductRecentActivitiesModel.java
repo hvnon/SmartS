@@ -1,8 +1,6 @@
 package com.shop.kissmartshop.model;
 
 
-import java.io.Serializable;
-
 /**
  * Created by LENOVO on 4/12/2016.
  */

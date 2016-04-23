@@ -42,4 +42,5 @@
     <string name="unsupport_play_service">This device does not supported google play service. Please install!</string>
     <string name="your_personal_assitant">YOUR PERSONAL ASSISTANT</string>
     <string name="ok">OK</string>
+    <string name="update_status_product_in_cart">Staff has taken care of products in your cart</string>
 </resources>

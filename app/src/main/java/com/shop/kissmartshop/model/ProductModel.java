@@ -1,7 +1,5 @@
 package com.shop.kissmartshop.model;
 
-import com.shop.kissmartshop.utils.Constants;
-
 import java.io.Serializable;
 
 /**

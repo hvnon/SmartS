@@ -1,22 +1,17 @@
 package com.shop.kissmartshop.activities;
 
-import android.content.Intent;
-import android.content.res.Resources;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.shop.kissmartshop.R;
 import com.shop.kissmartshop.data.DatabaseHelper;
 import com.shop.kissmartshop.fragments.CartFragment;
 import com.shop.kissmartshop.fragments.TouchedFragment;
-import com.shop.kissmartshop.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;

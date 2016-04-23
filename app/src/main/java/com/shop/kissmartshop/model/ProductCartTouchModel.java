@@ -1,13 +1,6 @@
 package com.shop.kissmartshop.model;
 
-import android.widget.LinearLayout;
-
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.ForeignCollectionField;
-
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**

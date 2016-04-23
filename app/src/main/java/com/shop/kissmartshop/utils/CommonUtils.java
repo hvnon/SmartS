@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.DisplayMetrics;
 
 import com.shop.kissmartshop.model.ProductCartTouchModel;
+import com.shop.kissmartshop.model.StaffModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,9 @@ import java.util.List;
  */
 public class CommonUtils {
     public static List<ProductCartTouchModel> lstProductCart = new ArrayList<>();
+    public static List<StaffModel> lstStaff = new ArrayList<>();
     public static String sUserId;
+    public static String token;
 
     public static int countProdInCart = 0;
 

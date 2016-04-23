@@ -22,4 +22,6 @@ public class Constants {
 
     public static final String MESSAGE_NOTIFICATION = "message_notification";
 
+    public static final String UPDATE_CART_PRODUCT_STATUS = "update_cart_product_status";
+
 }

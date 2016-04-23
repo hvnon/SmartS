@@ -7,6 +7,9 @@
     android:background="@color/background">
 
 
+    <!--android:layout_width="@dimen/icon_arrow_back_width"-->
+    <!--android:layout_height="@dimen/icon_arrow_back_height"-->
+
     <ImageView
         android:layout_width="@dimen/icon_arrow_back_width"
         android:layout_height="@dimen/icon_arrow_back_height"

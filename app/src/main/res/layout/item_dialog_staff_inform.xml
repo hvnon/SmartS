@@ -25,11 +25,23 @@
             android:scaleType="fitXY"
             android:src="@drawable/slider1"
             android:id="@+id/iv_staff_pic"/>
-        <com.devspark.robototextview.widget.RobotoTextView
-            app:typeface="roboto_light"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hi, I'm Lucy" />
+            android:orientation="horizontal">
+            <com.devspark.robototextview.widget.RobotoTextView
+                app:typeface="roboto_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hi, I'm" />
+            <com.devspark.robototextview.widget.RobotoTextView
+                app:typeface="roboto_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="Lucy"
+                android:id="@+id/tv_staff_name"/>
+        </LinearLayout>
         <com.devspark.robototextview.widget.RobotoTextView
             app:typeface="roboto_light"
             android:layout_width="wrap_content"

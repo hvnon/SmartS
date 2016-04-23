@@ -1,7 +1,5 @@
 package com.shop.kissmartshop.model;
 
-import com.j256.ormlite.field.DatabaseField;
-
 import java.io.Serializable;
 
 /**

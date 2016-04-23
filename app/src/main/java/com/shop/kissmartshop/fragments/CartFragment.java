@@ -1,11 +1,14 @@
 package com.shop.kissmartshop.fragments;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -83,6 +86,18 @@ public class CartFragment extends Fragment{
                     mButtonTry.setVisibility(View.GONE);
                     mButtonCheckout.setText(getResources().getString(R.string.pay_now));
                 } else {
+                    JsonArray arr = new JsonArray();
+                    for(ProductCartTouchModel product : mListProductInCart){
+                        JsonObject obj = new JsonObject();
+                        obj.addProperty("product_id", product.getProduct_id());
+                        obj.addProperty("color_id", "463");
+                        obj.addProperty("size_id", "302");
+                        arr.add(obj);
+                    }
+
+                    String prodArr = arr.toString();
+                    new APIHelper().addProductBuy(getActivity(), prodArr);
+
                     Intent iPayment = new Intent(getActivity(), PaymentActivity.class);
                     startActivityForResult(iPayment, 0);
                 }
@@ -153,6 +168,19 @@ public class CartFragment extends Fragment{
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mUpdateProductStatusBroadcastReceiver,
+                new IntentFilter(Constants.UPDATE_CART_PRODUCT_STATUS));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mUpdateProductStatusBroadcastReceiver);
+    }
+
     private Handler mHanlderPostProduct = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -161,6 +189,15 @@ public class CartFragment extends Fragment{
                 product.setProdStatus(Constants.PRODUCT_STATUS_SENT);
             }
 
+            mProductCartAdapter.updateData(mListProductInCart);
+        }
+    };
+
+    private BroadcastReceiver mUpdateProductStatusBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            mListProductInCart.clear();
+            mListProductInCart.addAll(CommonUtils.lstProductCart);
             mProductCartAdapter.updateData(mListProductInCart);
         }
     };

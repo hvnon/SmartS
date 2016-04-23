@@ -3,7 +3,9 @@ package com.shop.kissmartshop.api;
 import com.shop.kissmartshop.model.ListProductModel;
 import com.shop.kissmartshop.model.ListStaffModel;
 import com.shop.kissmartshop.model.ListUserModel;
+import com.shop.kissmartshop.model.ProductTouchedModel;
 import com.shop.kissmartshop.model.ResponseProductTryModel;
+import com.shop.kissmartshop.model.ResponseUpdateTokenModel;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -31,4 +33,19 @@ public interface ICallServices {
     @POST("/merlin/addTry.php")
     Call<ResponseProductTryModel> addProductTryAll(@Field("user_id") String userId, @Field("products") String productsTry);
 
+    @FormUrlEncoded
+    @POST("/merlin/addPickup.php")
+    Call<ResponseProductTryModel> addProductPickup(@Field("user_id") String userId, @Field("products") String productsPickup);
+
+    @FormUrlEncoded
+    @POST("/merlin/addBuy.php")
+    Call<ResponseProductTryModel> addProductBuy(@Field("user_id") String userId, @Field("products") String productsBuy);
+
+    @FormUrlEncoded
+    @POST("/merlin/updateUserToken.php")
+    Call<ResponseUpdateTokenModel> updateUserToken(@Field("user_id") String userId, @Field("push_token") String token);
+
+    @FormUrlEncoded
+    @POST("/merlin/getPickups.php")
+    Call<ProductTouchedModel> getPickups(@Field("user_id") String userId);
 }

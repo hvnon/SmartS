@@ -14,7 +14,6 @@ import android.util.Log;
 import com.google.android.gms.gcm.GcmListenerService;
 import com.shop.kissmartshop.R;
 import com.shop.kissmartshop.activities.RecentlyActivitiesActivity;
-import com.shop.kissmartshop.utils.AlertDialogUtiils;
 import com.shop.kissmartshop.utils.Constants;
 
 /**
@@ -59,7 +58,7 @@ public class ShopGCMListenerService extends GcmListenerService {
          * In some cases it may be useful to show a notification indicating to the user
          * that a message was received.
          */
-        sendNotification(message);
+        sendNotification(getString(R.string.update_status_product_in_cart));
         // [END_EXCLUDE]
     }
     // [END receive_message]

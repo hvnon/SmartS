@@ -1,16 +1,14 @@
 package com.shop.kissmartshop.activities;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.shop.kissmartshop.R;
-import com.shop.kissmartshop.model.ProductCartTouchModel;
 import com.shop.kissmartshop.utils.Constants;
 
 public class PaymentActivity extends BaseActivity {

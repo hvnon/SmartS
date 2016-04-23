@@ -14,7 +14,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.shop.kissmartshop.R;
+import com.shop.kissmartshop.model.ProductCartTouchModel;
+import com.shop.kissmartshop.model.StaffModel;
 import com.shop.kissmartshop.utils.AlertDialogUtiils;
 import com.shop.kissmartshop.utils.CommonUtils;
 import com.shop.kissmartshop.utils.Constants;
@@ -45,6 +51,7 @@ public class BaseActivity extends AppCompatActivity {
         ActionBar mActionBar = getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
+//        mActionBar.setDisplayHomeAsUpEnabled(true);
         LayoutInflater mInflater = LayoutInflater.from(this);
 
         View customView = mInflater.inflate(R.layout.custom_action_bar, null);
@@ -149,7 +156,39 @@ public class BaseActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             String message = intent.getStringExtra(Constants.MESSAGE_NOTIFICATION);
 //            new AlertDialogUtiils().showDialog(mContext, message);
-            new AlertDialogUtiils().showDialogStaffInform(mContext, message);
+            Gson gson = new Gson();
+            JsonObject objData = new JsonObject();
+            objData = gson.fromJson(message, JsonObject.class);
+            JsonArray arrProds = objData.getAsJsonArray("products");
+            if (arrProds != null) {
+                for (int i = 0; i < arrProds.size(); i++) {
+                    JsonObject prod = arrProds.get(i).getAsJsonObject();
+                    String prodId = prod.get("product_id").getAsString();
+                    String prodStatus = prod.get("status").getAsString();
+                    for (ProductCartTouchModel product : CommonUtils.lstProductCart) {
+                        if (product.getProduct_id().equalsIgnoreCase(prodId)) {
+                            if (prodStatus.equalsIgnoreCase("ready")) {
+                                product.setProdStatus(Constants.PRODUCT_STATUS_READY);
+                            } else if (prodStatus.equalsIgnoreCase("not found")) {
+                                product.setProdStatus(Constants.PRODUCT_STATUS_NOT_FOUND);
+                            }
+                        }
+                    }
+                }
+                Intent iUpdateProdStatusNotification = new Intent(Constants.UPDATE_CART_PRODUCT_STATUS);
+                LocalBroadcastManager.getInstance(mContext).sendBroadcast(iUpdateProdStatusNotification);
+            } else {
+                JsonElement eStaff = objData.get("assigned");
+                if(eStaff != null) {
+                    String staffId = objData.get("assigned").getAsString();
+                    for(StaffModel staff : CommonUtils.lstStaff){
+                        if(staff.getStaff_id().equalsIgnoreCase(staffId)){
+                            new AlertDialogUtiils().showDialogStaffInform(mContext, staff.getFirst_name(), staff.getProfile_pic());
+                        }
+                    }
+                }
+
+            }
         }
     };
 }

@@ -20,9 +20,9 @@ import com.shop.kissmartshop.model.ProductCartTouchModel;
 import com.shop.kissmartshop.model.SizeColorModel;
 import com.shop.kissmartshop.utils.CommonUtils;
 import com.shop.kissmartshop.utils.Constants;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -62,7 +62,8 @@ public class ProductCartAdapter extends RecyclerSwipeAdapter<ProductCartAdapter.
         productViewHolder.mTextViewProductDescription.setText(mLstProducts.get(i).getDescription());
         productViewHolder.mTextViewPricePromotion.setText(mLstProducts.get(i).getPricePromotion());
         productViewHolder.mTextViewPriceOriginal.setText(mLstProducts.get(i).getPriceOriginal());
-        productViewHolder.mImageViewProductPhoto.setImageResource(mLstProducts.get(i).getPhotoId());
+//        productViewHolder.mImageViewProductPhoto.setImageResource(mLstProducts.get(i).getPhotoId());
+        Picasso.with(mContext).load(mLstProducts.get(i).getImage()).into(productViewHolder.mImageViewProductPhoto);
         switch (mLstProducts.get(i).getProdStatus()){
             case Constants.PRODUCT_STATUS_NOTHING:
                 productViewHolder.mTextViewProdStatus.setVisibility(View.GONE);
@@ -124,8 +125,12 @@ public class ProductCartAdapter extends RecyclerSwipeAdapter<ProductCartAdapter.
         productViewHolder.mTextViewRemoved.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                productViewHolder.mSwipeLayoutProduct.close(true);
+                productViewHolder.mSwipeLayoutProduct.setSwipeEnabled(true);
+                productViewHolder.mLnConfirmDelete.setVisibility(View.GONE);
                 mItemManger.removeShownLayouts(productViewHolder.mSwipeLayoutProduct);
                 mLstProducts.remove(i);
+                CommonUtils.lstProductCart.remove(i);
                 notifyItemRemoved(i);
                 notifyItemRangeChanged(i, mLstProducts.size());
                 mItemManger.closeAllItems();

@@ -1,11 +1,7 @@
 package com.shop.kissmartshop.adapters;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,20 +9,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.daimajia.swipe.SwipeLayout;
-import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 import com.shop.kissmartshop.R;
-import com.shop.kissmartshop.model.ListProductModel;
 import com.shop.kissmartshop.model.ListUserModel;
-import com.shop.kissmartshop.model.ProductCartTouchModel;
-import com.shop.kissmartshop.model.SizeColorModel;
 import com.shop.kissmartshop.model.UserModel;
-import com.shop.kissmartshop.utils.CommonUtils;
-import com.shop.kissmartshop.utils.Constants;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by LENOVO on 4/12/2016.
