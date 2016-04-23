@@ -1,13 +1,20 @@
 package com.shop.kissmartshop.activities;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.shop.kissmartshop.R;
 import com.shop.kissmartshop.api.APIHelper;
 import com.shop.kissmartshop.custom.CustomLinearLayoutManager;
@@ -15,15 +22,21 @@ import com.shop.kissmartshop.adapters.ProductPagerAdapter;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.shop.kissmartshop.adapters.ProductRecentlyAdapter;
+import com.shop.kissmartshop.gcm.QuickstartPreferences;
+import com.shop.kissmartshop.gcm.ShopRegistrationIntentService;
 import com.shop.kissmartshop.model.ListProductModel;
 import com.shop.kissmartshop.model.ProductModel;
 import com.shop.kissmartshop.model.ProductRecentActivitiesModel;
+import com.shop.kissmartshop.utils.AlertDialogUtiils;
+import com.shop.kissmartshop.utils.CommonUtils;
 import com.shop.kissmartshop.utils.Constants;
+import com.shop.kissmartshop.utils.ProgressDialogUtils;
 import com.viewpagerindicator.CirclePageIndicator;
 import com.viewpagerindicator.PageIndicator;
 
@@ -40,6 +53,8 @@ import pickme.bluestone_sdk.BluestoneManager;
 
 public class RecentlyActivitiesActivity extends BaseActivity {
 
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+
     private ViewPager mViewPagerProduct;
     private ProductPagerAdapter mProductPagerAdapter;
     private RecyclerView mRecyclerViewRecentlyActivities;
@@ -52,6 +67,7 @@ public class RecentlyActivitiesActivity extends BaseActivity {
     private BluestoneManager mBluestoneManager;
     private Context mContext;
     private Boolean isLaunchProductDetail = false;
+    private ProgressDialogUtils mProgressDialogUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +112,14 @@ public class RecentlyActivitiesActivity extends BaseActivity {
         mBluestoneManager = new BluestoneManager(this);
         mBluestoneManager.setListener(mBlueStoneListener);
         mBluestoneManager.updateRange(-85);
+
+        if (checkPlayServices()) {
+            mProgressDialogUtils = new ProgressDialogUtils(this, "", getString(R.string.connecting));
+            mProgressDialogUtils.show();
+            // Start IntentService to register this application with GCM.
+            Intent intent = new Intent(this, ShopRegistrationIntentService.class);
+            startService(intent);
+        }
     }
 
     private void initializeData(){
@@ -156,9 +180,61 @@ public class RecentlyActivitiesActivity extends BaseActivity {
 //            lstProductRecently.add(new ProductRecentActivitiesModel("Fashionable Men's Athletic Shoes With Color Matching and Letter", "12.5", "23.1", R.drawable.shoes4, 45, 5, 6, Constants.PRODUCT_STATE_TRYING));
         }
     };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
+    }
+
+    @Override
+    protected void onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
+        super.onPause();
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mBluestoneManager.stopScan();
+        try {
+            mBluestoneManager.stopScan();
+        }catch (Exception e){}
+    }
+
+    private BroadcastReceiver mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            SharedPreferences sharedPreferences =
+                    PreferenceManager.getDefaultSharedPreferences(context);
+            boolean sentToken = sharedPreferences
+                    .getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
+            if (sentToken) {
+
+            } else {
+
+            }
+
+            if (mProgressDialogUtils != null) {
+                mProgressDialogUtils.hide();
+            }
+        }
+    };
+
+    private boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                //Show message here inform user this device doesn't support play service
+               new AlertDialogUtiils().showDialog(mContext, getString(R.string.unsupport_play_service));
+            }
+            return false;
+        }
+        return true;
     }
 }
+

@@ -20,4 +20,6 @@ public class Constants {
 
     public static final String EXTRA_PRODUCT_DETAIL = "product_detail";
 
+    public static final String MESSAGE_NOTIFICATION = "message_notification";
+
 }

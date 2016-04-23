@@ -1,7 +1,11 @@
 package com.shop.kissmartshop.activities;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -11,7 +15,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.shop.kissmartshop.R;
+import com.shop.kissmartshop.utils.AlertDialogUtiils;
 import com.shop.kissmartshop.utils.CommonUtils;
+import com.shop.kissmartshop.utils.Constants;
 
 /**
  * Created by LENOVO on 4/13/2016.
@@ -22,12 +28,15 @@ public class BaseActivity extends AppCompatActivity {
     private TextView mTextViewTitle;
     private RelativeLayout mRelativeLayoutCart;
     private TextView mTextViewCartNumber;
+    protected Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         initActionBar();
+
+        mContext = this;
 
     }
 
@@ -76,6 +85,14 @@ public class BaseActivity extends AppCompatActivity {
     protected void onResume() {
         onUpdateCartNumber();
         super.onResume();
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageBroadcastReceiver,
+                new IntentFilter(Constants.MESSAGE_NOTIFICATION));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageBroadcastReceiver);
     }
 
     protected void onBack()
@@ -126,4 +143,13 @@ public class BaseActivity extends AppCompatActivity {
             mTextViewCartNumber.setText(String.valueOf(CommonUtils.countProdInCart));
         }
     }
+
+    private BroadcastReceiver mMessageBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String message = intent.getStringExtra(Constants.MESSAGE_NOTIFICATION);
+//            new AlertDialogUtiils().showDialog(mContext, message);
+            new AlertDialogUtiils().showDialogStaffInform(mContext, message);
+        }
+    };
 }

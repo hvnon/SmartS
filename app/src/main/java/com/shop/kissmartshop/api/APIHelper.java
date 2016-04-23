@@ -10,6 +10,7 @@ import com.shop.kissmartshop.model.ListProductModel;
 import com.shop.kissmartshop.model.ListUserModel;
 import com.shop.kissmartshop.model.ResponseProductTryModel;
 import com.shop.kissmartshop.utils.CommonUtils;
+import com.shop.kissmartshop.utils.ProgressDialogUtils;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,20 +24,19 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class APIHelper {
     public static final String HOST_NAME = "http://hoa.do";
 
-    private ProgressDialog mProgressDialog;
+    private ProgressDialogUtils mProgressDialogUtils;
 
     private void showProgressDialog(Context context) {
 
-        if(mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(context);
-            mProgressDialog.setMessage(context.getString(R.string.connecting));
+        if(mProgressDialogUtils == null) {
+            mProgressDialogUtils = new ProgressDialogUtils(context, "", context.getString(R.string.connecting));
         }
-        mProgressDialog.show();
+        mProgressDialogUtils.show();
     }
 
     private void closeDialog() {
-        if(mProgressDialog != null && mProgressDialog.isShowing()){
-            mProgressDialog.hide();
+        if(mProgressDialogUtils != null){
+            mProgressDialogUtils.hide();
         }
     }
 
@@ -107,7 +107,7 @@ public class APIHelper {
                 .build();
 
         ICallServices service = retrofit.create(ICallServices.class);
-        
+
         Call<ResponseProductTryModel> lstProdObjs = service.addProductTryAll(CommonUtils.sUserId, productArr);
 
         lstProdObjs.enqueue(new Callback<ResponseProductTryModel>() {

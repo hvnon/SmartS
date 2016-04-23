@@ -2,8 +2,24 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.shop.kissmartshop">
 
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Keeps processor from sleeping when a message is received. -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <!-- Permission to vibrate when receive a notification -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- Lets app receive data messages. -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <!-- Creates a custom permission using "signature" so that only this app
+         can read the messages returned by GCM-->
+    <permission
+        android:name="com.shop.kissmartshop.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission
+        android:name="com.shop.kissmartshop.permission.C2D_MESSAGE" />
 
     <application
         android:allowBackup="true"
@@ -25,6 +41,47 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+
+                <!-- Receives the actual messages. -->
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
+                <!-- Receives the registration id. -->
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="com.shop.kissmartshop" />
+
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".gcm.ShopGCMListenerService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+
+        <!-- Handles the creation and updating of registration tokens -->
+
+        <service
+            android:name=".gcm.ShopInstanceIDListenerService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
+            </intent-filter>
+        </service>
+
+        <!-- To get the registration token -->
+
+        <service
+            android:name=".gcm.ShopRegistrationIntentService"
+            android:exported="false" >
+        </service>
     </application>
 
 </manifest>

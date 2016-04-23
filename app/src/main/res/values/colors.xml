@@ -15,4 +15,5 @@
     <color name="background_bottom_action_product_detail">#F4F6F4</color>
     <color name="light_grey_blur">#6FD3D3D3</color>
     <color name="background_user_profile">#E9EBEA</color>
+    <color name="back_title_dialog_staff_inform">#FF0052</color>
 </resources>
