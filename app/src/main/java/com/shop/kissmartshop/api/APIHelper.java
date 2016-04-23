@@ -8,7 +8,8 @@ import android.os.Message;
 import com.shop.kissmartshop.R;
 import com.shop.kissmartshop.model.ListProductModel;
 import com.shop.kissmartshop.model.ListUserModel;
-import com.shop.kissmartshop.model.ProductPage;
+import com.shop.kissmartshop.model.ResponseProductTryModel;
+import com.shop.kissmartshop.utils.CommonUtils;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -97,4 +98,32 @@ public class APIHelper {
         });
     }
 
+    public void addProductTry(Context context, String productArr , final Handler handler)
+    {
+        showProgressDialog(context);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(HOST_NAME)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ICallServices service = retrofit.create(ICallServices.class);
+        
+        Call<ResponseProductTryModel> lstProdObjs = service.addProductTryAll(CommonUtils.sUserId, productArr);
+
+        lstProdObjs.enqueue(new Callback<ResponseProductTryModel>() {
+            @Override
+            public void onResponse(Call<ResponseProductTryModel> call, Response<ResponseProductTryModel> response) {
+                ResponseProductTryModel resProd = response.body();
+                Message msg = Message.obtain();
+                msg.obj = resProd;
+                handler.sendMessage(msg);
+                closeDialog();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseProductTryModel> call, Throwable t) {
+
+            }
+        });
+    }
 }

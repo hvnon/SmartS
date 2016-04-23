@@ -1,5 +1,6 @@
 package com.shop.kissmartshop.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,15 +15,15 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.j256.ormlite.dao.Dao;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.shop.kissmartshop.R;
 import com.shop.kissmartshop.activities.PaymentActivity;
 import com.shop.kissmartshop.activities.TouchCartActivity;
 import com.shop.kissmartshop.adapters.ProductCartAdapter;
-import com.shop.kissmartshop.adapters.ProductTouchAdapter;
+import com.shop.kissmartshop.api.APIHelper;
 import com.shop.kissmartshop.custom.SimpleDividerItemDecoration;
 import com.shop.kissmartshop.model.ProductCartTouchModel;
-import com.shop.kissmartshop.model.SizeColorModel;
 import com.shop.kissmartshop.utils.CommonUtils;
 import com.shop.kissmartshop.utils.Constants;
 
@@ -43,12 +44,16 @@ public class CartFragment extends Fragment{
     private LinearLayout mLinearLayoutBottomAction;
     private TextView mTextViewTotalPrice;
 
+    private Context mContext;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mListProductInCart = new ArrayList<>();
         mListProductInCart.addAll(CommonUtils.lstProductCart);
+
+        mContext = getActivity();
 //        initializeData();
     }
 
@@ -88,16 +93,24 @@ public class CartFragment extends Fragment{
         mButtonTry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                JsonArray arr = new JsonArray();
                 for(ProductCartTouchModel product : mListProductInCart){
-                    product.setProdStatus(Constants.PRODUCT_STATUS_SENT);
+                    JsonObject obj = new JsonObject();
+                    obj.addProperty("product_id", product.getProduct_id());
+                    obj.addProperty("color_id", "463");
+                    obj.addProperty("size_id", "302");
+                    arr.add(obj);
                 }
 
-                mProductCartAdapter.updateData(mListProductInCart);
+                String prodArr = arr.toString();
+                (new APIHelper()).addProductTry(mContext, prodArr, mHanlderPostProduct);
 
-                mButtonTry.setBackgroundResource(R.drawable.button_selector_grey);
-                mButtonTry.setText(getResources().getString(R.string.cancel_try));
-
-                mHanlderProductUpdateStatus.sendEmptyMessageDelayed(0, 2000);
+//                mProductCartAdapter.updateData(mListProductInCart);
+//
+//                mButtonTry.setBackgroundResource(R.drawable.button_selector_grey);
+//                mButtonTry.setText(getResources().getString(R.string.cancel_try));
+//
+//                mHanlderProductUpdateStatus.sendEmptyMessageDelayed(0, 2000);
             }
         });
 
@@ -140,11 +153,12 @@ public class CartFragment extends Fragment{
 
     }
 
-    private Handler mHanlderProductUpdateStatus = new Handler(){
+    private Handler mHanlderPostProduct = new Handler(){
         @Override
         public void handleMessage(Message msg) {
+
             for(ProductCartTouchModel product : mListProductInCart){
-                product.setProdStatus(Constants.PRODUCT_STATUS_READY);
+                product.setProdStatus(Constants.PRODUCT_STATUS_SENT);
             }
 
             mProductCartAdapter.updateData(mListProductInCart);

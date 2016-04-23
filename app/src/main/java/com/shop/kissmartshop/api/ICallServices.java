@@ -3,7 +3,7 @@ package com.shop.kissmartshop.api;
 import com.shop.kissmartshop.model.ListProductModel;
 import com.shop.kissmartshop.model.ListStaffModel;
 import com.shop.kissmartshop.model.ListUserModel;
-import com.shop.kissmartshop.model.ProductPage;
+import com.shop.kissmartshop.model.ResponseProductTryModel;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -26,4 +26,9 @@ public interface ICallServices {
     @FormUrlEncoded
     @POST("/merlin/getUsers.php")
     Call<ListUserModel> getUsers(@Field("in_store") String number);
+
+    @FormUrlEncoded
+    @POST("/merlin/addTry.php")
+    Call<ResponseProductTryModel> addProductTryAll(@Field("user_id") String userId, @Field("products") String productsTry);
+
 }

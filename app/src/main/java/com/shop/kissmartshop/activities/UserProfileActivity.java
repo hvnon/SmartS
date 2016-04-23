@@ -20,6 +20,7 @@ import com.shop.kissmartshop.api.APIHelper;
 import com.shop.kissmartshop.custom.SpacesItemDecoration;
 import com.shop.kissmartshop.model.ListUserModel;
 import com.shop.kissmartshop.model.UserModel;
+import com.shop.kissmartshop.utils.CommonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,7 @@ public class UserProfileActivity extends BaseActivity {
         mUserAdapter = new UserProfileAdapter(this, mLstUsers, new UserProfileAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(UserModel item) {
+                CommonUtils.sUserId = item.getUser_id();
                 Intent iRecentActivities = new Intent(UserProfileActivity.this, RecentlyActivitiesActivity.class);
                 startActivity(iRecentActivities);
             }
