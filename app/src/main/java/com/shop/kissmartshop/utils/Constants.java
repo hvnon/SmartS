@@ -24,4 +24,7 @@ public class Constants {
 
     public static final String UPDATE_CART_PRODUCT_STATUS = "update_cart_product_status";
 
+    public static final int LOAD_IMAGE_FROM_URL = 0;
+    public static final int LOAD_IMAGE_FROM_RESOUCE = 1;
+
 }

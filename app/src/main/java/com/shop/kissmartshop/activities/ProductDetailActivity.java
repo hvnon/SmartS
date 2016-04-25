@@ -57,7 +57,7 @@ public class ProductDetailActivity extends BaseActivity {
     private ProductRecentActivitiesModel mProduct;
 
     private View mViewDisable;
-    private List<Integer> mLstProductPhotos;
+    private List<String> mLstProductPhotos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,10 +70,8 @@ public class ProductDetailActivity extends BaseActivity {
         mViewPagerProduct.setOrientation(DirectionalViewPager.VERTICAL);
 
         mLstProductPhotos = new ArrayList<>();
-        mLstProductPhotos.add(mProduct.getPhotoId());
-        mLstProductPhotos.add(R.drawable.shoes11);
-        mLstProductPhotos.add(R.drawable.shoes12);
-        ProductPagerAdapter adapter = new ProductPagerAdapter(this, mLstProductPhotos);
+        mLstProductPhotos.add(mProduct.getImage());
+        ProductPagerAdapter adapter = new ProductPagerAdapter(this, mLstProductPhotos, Constants.LOAD_IMAGE_FROM_URL);
         mViewPagerProduct.setAdapter(adapter);
 
         mPageIndicatorProduct = (CirclePageIndicator)findViewById(R.id.page_indicator_product);
@@ -144,7 +142,7 @@ public class ProductDetailActivity extends BaseActivity {
         product.setLstSizeColors(mListColorSizes);
         product.setPriceOriginal(prodPriceOriginal);
         product.setPricePromotion(prodPricePromotion);
-        product.setPhotoId(mLstProductPhotos.get(0));
+//        product.setPhotoId(mLstProductPhotos.get(0));
         product.setImage(mProduct.getImage());
         CommonUtils.lstProductCart.add(product);
 

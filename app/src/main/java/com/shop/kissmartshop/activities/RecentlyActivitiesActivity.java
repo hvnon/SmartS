@@ -71,11 +71,11 @@ public class RecentlyActivitiesActivity extends BaseActivity {
             }
         });
 
-        List<Integer> lstProductPhotos = new ArrayList<>();
-        lstProductPhotos.add(R.drawable.slider1);
-        lstProductPhotos.add(R.drawable.slider2);
-        lstProductPhotos.add(R.drawable.slider3);
-        mProductPagerAdapter = new ProductPagerAdapter(this, lstProductPhotos);
+        List<String> lstProductPhotos = new ArrayList<>();
+        lstProductPhotos.add(String.valueOf(R.drawable.slider1));
+        lstProductPhotos.add(String.valueOf(R.drawable.slider2));
+        lstProductPhotos.add(String.valueOf(R.drawable.slider3));
+        mProductPagerAdapter = new ProductPagerAdapter(this, lstProductPhotos, Constants.LOAD_IMAGE_FROM_RESOUCE);
         mViewPagerProduct.setAdapter(mProductPagerAdapter);
 
         mRecyclerViewRecentlyActivities.setNestedScrollingEnabled(false);

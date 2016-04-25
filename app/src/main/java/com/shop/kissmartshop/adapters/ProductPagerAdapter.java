@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.shop.kissmartshop.R;
+import com.shop.kissmartshop.utils.Constants;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,13 +23,15 @@ public class ProductPagerAdapter extends PagerAdapter {
 //    private List<String> mListProducts;
     private Context mContext;
     private LayoutInflater mLayoutInflater;
-    private List<Integer> mListProductPhotos;
+    private List<String> mListProductPhotos;
+    private int mSourceToLoadImage;
 
-    public ProductPagerAdapter(Context context, List<Integer> lstProductPhotos){
+    public ProductPagerAdapter(Context context, List<String> lstProductPhotos, int sourceImage){
         mContext = context;
-        mListProductPhotos = new ArrayList<>();
-        mListProductPhotos.addAll(lstProductPhotos);
+        this.mListProductPhotos = new ArrayList<>();
+        this.mListProductPhotos.addAll(lstProductPhotos);
         mLayoutInflater  = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mSourceToLoadImage = sourceImage;
     }
 
     @Override
@@ -45,7 +49,14 @@ public class ProductPagerAdapter extends PagerAdapter {
         View itemView = mLayoutInflater.inflate(R.layout.item_pager_product, container, false);
 
         ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
-        imageView.setImageResource(mListProductPhotos.get(position));
+        if (mSourceToLoadImage == Constants.LOAD_IMAGE_FROM_URL) {
+            if (!mListProductPhotos.get(position).equalsIgnoreCase("")) {
+                Picasso.with(mContext).load(mListProductPhotos.get(position)).into(imageView);
+            }
+        } else {
+            Integer resId = Integer.parseInt(mListProductPhotos.get(position));
+            imageView.setImageResource(resId);
+        }
 
         container.addView(itemView);
 
