@@ -46,8 +46,21 @@ public class RecentlyActivitiesActivity extends BaseActivity {
     private ProductRecentlyAdapter mProductAdapter;
 
     private BluestoneManager mBluestoneManager;
+    private Handler handlerBlueStoneDelayer;
+    private boolean blueStoneDelayedFinish = true;
+    private String currentBlueStone;
+
     private Context mContext;
     private Boolean isLaunchProductDetail = false;
+
+    private Runnable runnableBlueStoneDelayer = new Runnable() {
+        @Override
+        public void run() {
+            blueStoneDelayedFinish = true;
+            handlerBlueStoneDelayer.removeCallbacksAndMessages(null);
+        }
+    };
+
 //    private ProgressDialogUtils mProgressDialogUtils;
 
     @Override
@@ -94,6 +107,8 @@ public class RecentlyActivitiesActivity extends BaseActivity {
         mBluestoneManager.setListener(mBlueStoneListener);
         mBluestoneManager.updateRange(-85);
 
+        handlerBlueStoneDelayer = new Handler();
+
 //        if (checkPlayServices()) {
 //            mProgressDialogUtils = new ProgressDialogUtils(this, "", getString(R.string.connecting));
 //            mProgressDialogUtils.show();
@@ -115,6 +130,8 @@ public class RecentlyActivitiesActivity extends BaseActivity {
         @Override
         public void onBlueStoneCallBack(BlueStone blueStone, boolean inRange, String UUID, int major, int minor) {
 //            Product current = products.get(blueStone.id);
+            if (!blueStoneDelayedFinish) return;
+            Log.i("HOA", "onBlueStoneCallBack: BS MOTION: " + blueStone.motion);
             if (inRange) {
                 Log.i("BlueStone ID", "Blue Stone ID : " + blueStone.id);
                 if (!isLaunchProductDetail && lstProductRecently != null && lstProductRecently.size() > 0) {
@@ -128,6 +145,10 @@ public class RecentlyActivitiesActivity extends BaseActivity {
 //                            arr.add(obj);
 //                            String prodArr = arr.toString();
 //                            new APIHelper().addProductPickup(mContext, prodArr);
+                            blueStoneDelayedFinish = false;
+                            handlerBlueStoneDelayer.postDelayed(runnableBlueStoneDelayer, 5000);
+                            currentBlueStone = blueStone.id;
+
                             new APIHelper().addProductPickup(mContext, prod.getProduct_id());
 
                             isLaunchProductDetail = true;
@@ -182,6 +203,7 @@ public class RecentlyActivitiesActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        currentBlueStone = "";
 //        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
 //                new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
     }
@@ -196,7 +218,7 @@ public class RecentlyActivitiesActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         try {
-            mBluestoneManager.stopScan();
+            mBluestoneManager.kill();
         }catch (Exception e){}
     }
 
