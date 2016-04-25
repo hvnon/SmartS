@@ -33,9 +33,13 @@ public interface ICallServices {
     @POST("/merlin/addTry.php")
     Call<ResponseProductTryModel> addProductTryAll(@Field("user_id") String userId, @Field("products") String productsTry);
 
+//    @FormUrlEncoded
+//    @POST("/merlin/addPickup.php")
+//    Call<ResponseProductTryModel> addProductPickup(@Field("user_id") String userId, @Field("products") String productsPickup);
+
     @FormUrlEncoded
     @POST("/merlin/addPickup.php")
-    Call<ResponseProductTryModel> addProductPickup(@Field("user_id") String userId, @Field("products") String productsPickup);
+    Call<ResponseProductTryModel> addProductPickup(@Field("user_id") String userId, @Field("product_id") String productId);
 
     @FormUrlEncoded
     @POST("/merlin/addBuy.php")

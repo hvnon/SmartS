@@ -120,14 +120,15 @@ public class RecentlyActivitiesActivity extends BaseActivity {
                 if (!isLaunchProductDetail && lstProductRecently != null && lstProductRecently.size() > 0) {
                     for(ProductRecentActivitiesModel prod : lstProductRecently) {
                         if(prod.getBluestone().equalsIgnoreCase(blueStone.id)) {
-                            JsonArray arr = new JsonArray();
-                            JsonObject obj = new JsonObject();
-                            obj.addProperty("product_id", prod.getProduct_id());
-                            obj.addProperty("color_id", "463");
-                            obj.addProperty("size_id", "302");
-                            arr.add(obj);
-                            String prodArr = arr.toString();
-                            new APIHelper().addProductPickup(mContext, prodArr);
+//                            JsonArray arr = new JsonArray();
+//                            JsonObject obj = new JsonObject();
+//                            obj.addProperty("product_id", prod.getProduct_id());
+//                            obj.addProperty("color_id", "463");
+//                            obj.addProperty("size_id", "302");
+//                            arr.add(obj);
+//                            String prodArr = arr.toString();
+//                            new APIHelper().addProductPickup(mContext, prodArr);
+                            new APIHelper().addProductPickup(mContext, prod.getProduct_id());
 
                             isLaunchProductDetail = true;
                             Intent iProductDetail = new Intent(mContext, ProductDetailActivity.class);
@@ -159,11 +160,13 @@ public class RecentlyActivitiesActivity extends BaseActivity {
 
             for(ProductModel product : products.getProducts()) {
                 Random r = new Random();
-                ProductRecentActivitiesModel productRecently = new ProductRecentActivitiesModel(product.getProduct_name(), product.getPrice(), "2.30", R.drawable.shoes1,  r.nextInt(100), 10, 2, r.nextInt(3));
+                double priceOriginal = Double.parseDouble(product.getPrice()) + 5;
+                ProductRecentActivitiesModel productRecently = new ProductRecentActivitiesModel(product.getProduct_name(), product.getPrice(), String.format("%.2f", priceOriginal), R.drawable.shoes1,  r.nextInt(100), 10, 2, r.nextInt(3));
                 productRecently.setProduct_id(product.getProduct_id());
                 productRecently.setImage(product.getImage());
                 productRecently.setProduct_name(product.getProduct_name());
                 productRecently.setBluestone(product.getBluestone());
+                productRecently.setColors(product.getColors());
                 lstProductRecently.add(productRecently);
             }
 

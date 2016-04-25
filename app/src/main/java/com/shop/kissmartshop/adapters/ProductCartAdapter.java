@@ -63,7 +63,9 @@ public class ProductCartAdapter extends RecyclerSwipeAdapter<ProductCartAdapter.
         productViewHolder.mTextViewPricePromotion.setText(mLstProducts.get(i).getPricePromotion());
         productViewHolder.mTextViewPriceOriginal.setText(mLstProducts.get(i).getPriceOriginal());
 //        productViewHolder.mImageViewProductPhoto.setImageResource(mLstProducts.get(i).getPhotoId());
-        Picasso.with(mContext).load(mLstProducts.get(i).getImage()).into(productViewHolder.mImageViewProductPhoto);
+        if(!mLstProducts.get(i).getImage().equalsIgnoreCase("")) {
+            Picasso.with(mContext).load(mLstProducts.get(i).getImage()).into(productViewHolder.mImageViewProductPhoto);
+        }
         switch (mLstProducts.get(i).getProdStatus()){
             case Constants.PRODUCT_STATUS_NOTHING:
                 productViewHolder.mTextViewProdStatus.setVisibility(View.GONE);

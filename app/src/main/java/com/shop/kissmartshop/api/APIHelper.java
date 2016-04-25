@@ -185,7 +185,7 @@ public class APIHelper {
         });
     }
 
-    public void addProductPickup(Context context, String productArr)
+    public void addProductPickup(Context context, String productId)
     {
         showProgressDialog(context);
         Retrofit retrofit = new Retrofit.Builder()
@@ -195,7 +195,7 @@ public class APIHelper {
 
         ICallServices service = retrofit.create(ICallServices.class);
 
-        Call<ResponseProductTryModel> lstProdObjs = service.addProductPickup(CommonUtils.sUserId, productArr);
+        Call<ResponseProductTryModel> lstProdObjs = service.addProductPickup(CommonUtils.sUserId, productId);
 
         lstProdObjs.enqueue(new Callback<ResponseProductTryModel>() {
             @Override

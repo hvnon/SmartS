@@ -74,8 +74,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_below="@id/ln_product_price_promotion"
-                        android:layout_alignRight="@id/ln_product_price_promotion">
+                        android:layout_below="@id/ln_product_price_promotion">
                         <com.devspark.robototextview.widget.RobotoTextView
                             app:typeface="roboto_light"
                             android:layout_width="wrap_content"

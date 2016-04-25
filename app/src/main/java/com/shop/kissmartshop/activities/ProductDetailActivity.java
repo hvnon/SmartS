@@ -22,9 +22,12 @@ import com.devspark.robototextview.util.RobotoTypefaceUtils;
 import com.devspark.robototextview.widget.RobotoTextView;
 import com.shop.kissmartshop.R;
 import com.shop.kissmartshop.adapters.ProductPagerAdapter;
+import com.shop.kissmartshop.data.SizeColorTagData;
+import com.shop.kissmartshop.model.ColorModel;
 import com.shop.kissmartshop.model.ProductCartTouchModel;
 import com.shop.kissmartshop.model.ProductRecentActivitiesModel;
 import com.shop.kissmartshop.model.SizeColorModel;
+import com.shop.kissmartshop.model.SizeModel;
 import com.shop.kissmartshop.utils.CommonUtils;
 import com.shop.kissmartshop.utils.Constants;
 import com.viewpagerindicator.CirclePageIndicator;
@@ -156,7 +159,8 @@ public class ProductDetailActivity extends BaseActivity {
     }
     private void createSizeColorOfProduct()
     {
-        for(int i=0;i<4;i++) {
+        List<ColorModel> lstColorOfProduct = mProduct.getColors();
+        for(ColorModel color : lstColorOfProduct) {
 
             RelativeLayout rlSizeColorBg = new RelativeLayout(this);
             LinearLayout.LayoutParams paramLayoutSizeColorBg = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -170,21 +174,22 @@ public class ProductDetailActivity extends BaseActivity {
                     RobotoTypefaceManager.Typeface.ROBOTO_LIGHT);
             RobotoTypefaceUtils.setUp(tvSizeColor, typeface);
 
-            switch (i) {
-                case 0:
-                    tvSizeColor.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#020302")));
-                    break;
-                case 1:
-                    tvSizeColor.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#475784")));
-                    break;
-                case 2:
-                    tvSizeColor.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#0099F2")));
-                    break;
-                case 3:
-                    tvSizeColor.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00B14D")));
-                    break;
-
-            }
+            tvSizeColor.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(color.getColor_hex())));
+//            switch (i) {
+//                case 0:
+//                    tvSizeColor.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#020302")));
+//                    break;
+//                case 1:
+//                    tvSizeColor.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#475784")));
+//                    break;
+//                case 2:
+//                    tvSizeColor.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#0099F2")));
+//                    break;
+//                case 3:
+//                    tvSizeColor.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00B14D")));
+//                    break;
+//
+//            }
             tvSizeColor.setGravity(Gravity.CENTER);
 
             RelativeLayout.LayoutParams paramsTextViewSizeColor = new RelativeLayout.LayoutParams(CommonUtils.dpToPx(this, 34), CommonUtils.dpToPx(this, 34));
@@ -195,7 +200,13 @@ public class ProductDetailActivity extends BaseActivity {
             tvBgSizeColor.setTextColor(this.getResources().getColor(R.color.white));
             tvBgSizeColor.setGravity(Gravity.CENTER);
 
-            tvSizeColor.setTag(tvBgSizeColor);
+            SizeColorTagData sizeTag = new SizeColorTagData();
+            sizeTag.setTvBgSizeColor(tvBgSizeColor);
+            sizeTag.setLstSizes(color.getSizes());
+            sizeTag.setColorSelected(color.getColor_hex());
+            sizeTag.setColorIdSelected(color.getColor_id());
+            tvSizeColor.setTag(sizeTag);
+//            tvSizeColor.setTag(tvBgSizeColor);
 
             RelativeLayout.LayoutParams paramsTextViewSizeColorBg = new RelativeLayout.LayoutParams(CommonUtils.dpToPx(this, 45), CommonUtils.dpToPx(this, 45));
             paramsTextViewSizeColorBg.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
@@ -227,10 +238,12 @@ public class ProductDetailActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     TextView tvSelected = (TextView) v;
+                    SizeColorTagData tag = (SizeColorTagData)v.getTag();
                     if (mTextViewSelected == tvSelected) {
                         mLinearLayoutSizeColor.setVisibility(View.GONE);
                         mTextViewSelected = null;
                     } else {
+                        showSizeOfColor(tag.getLstSizes());
                         mLinearLayoutSizeColor.setVisibility(View.VISIBLE);
                         mTextViewSelected = tvSelected;
                         String size = mTextViewSelected.getText().toString();
@@ -240,6 +253,46 @@ public class ProductDetailActivity extends BaseActivity {
             });
         }
 
+    }
+
+    private void showSizeOfColor(List<SizeModel> lstSize)
+    {
+        disableAllSize(mLinearLayoutSizeColor);
+        for(SizeModel size : lstSize){
+            enableSizeOfColor(mLinearLayoutSizeColor, size);
+        }
+    }
+
+    private void disableAllSize(ViewGroup viewGroup)
+    {
+        for(int i=0; i<viewGroup.getChildCount();i++)
+        {
+            View view = viewGroup.getChildAt(i);
+            if (view instanceof ViewGroup) {
+                disableAllSize((ViewGroup) view);
+            } else if ((view instanceof TextView)) {
+                TextView tvSize = ((TextView)view);
+                tvSize.setEnabled(false);
+            }
+        }
+    }
+
+    private void enableSizeOfColor(ViewGroup viewGroup, SizeModel size)
+    {
+        for(int i=0; i<viewGroup.getChildCount();i++)
+        {
+            View view = viewGroup.getChildAt(i);
+            if (view instanceof ViewGroup) {
+                enableSizeOfColor((ViewGroup) view, size);
+            } else if ((view instanceof TextView)) {
+                TextView tvSize = ((TextView)view);
+                String value = tvSize.getText().toString();
+                if (value.equalsIgnoreCase(size.getSize())) {
+                    tvSize.setEnabled(true);
+                    tvSize.setTag(size);
+                }
+            }
+        }
     }
 
     private void createListSize()
@@ -259,7 +312,7 @@ public class ProductDetailActivity extends BaseActivity {
             tvSize.setText(String.valueOf(i));
             lnSize.addView(tvSize);
             lnSizeColorFirst.addView(lnSize);
-            tvSize.setTag(i);
+//            tvSize.setTag(i);
 
             Typeface typeface = RobotoTypefaceManager.obtainTypeface(
                     this,
@@ -289,7 +342,7 @@ public class ProductDetailActivity extends BaseActivity {
             tvSize.setText(String.valueOf(i));
             lnSize.addView(tvSize);
             lnSizeColorSecond.addView(lnSize);
-            tvSize.setTag(i);
+//            tvSize.setTag(i);
 
             Typeface typeface = RobotoTypefaceManager.obtainTypeface(
                     this,
@@ -323,10 +376,14 @@ public class ProductDetailActivity extends BaseActivity {
                 TextView tvSizeColor = ((TextView)view);
                 String value = tvSizeColor.getText().toString();
                 if (!value.equalsIgnoreCase("")) {
+                    SizeColorTagData tag = (SizeColorTagData)tvSizeColor.getTag();
                     SizeColorModel colorSize = new SizeColorModel();
-                    colorSize.setColor(String.format("#%06X", (0xFFFFFF & tvSizeColor.getBackgroundTintList().getDefaultColor())));
-                    colorSize.setSize(value);
+                    colorSize.setColor(tag.getColorSelected());
+                    colorSize.setColorId(tag.getColorIdSelected());
+                    colorSize.setSizeId(tag.getSizeIdSelected());
+                    colorSize.setSize(tag.getSizeSelected());
                     mListColorSizes.add(colorSize);
+                    //                    colorSize.setColor(String.format("#%06X", (0xFFFFFF & tvSizeColor.getBackgroundTintList().getDefaultColor())));
                     return;
                 }
             }
@@ -353,13 +410,22 @@ public class ProductDetailActivity extends BaseActivity {
 
     private void selectSize(View v)
     {
-        int value = Integer.parseInt(v.getTag().toString());
+//        int value = Integer.parseInt(v.getTag().toString());
+        SizeModel size = (SizeModel)v.getTag();
         v.setBackgroundResource(R.drawable.button_selector_blue);
         deselectSize(mLinearLayoutSizeColor, v);
-        mTextViewSelected.setText(String.valueOf(value));
+        mTextViewSelected.setText(String.valueOf(size.getSize()));
+
+        SizeColorTagData colorSize = (SizeColorTagData)mTextViewSelected.getTag();
+        colorSize.setSizeSelected(size.getSize());
+        colorSize.setSizeIdSelected(size.getSize_id());
+        mTextViewSelected.setTag(colorSize);
+
         mViewDisable.setVisibility(View.GONE);
         enableActionBottom(true);
-        TextView tvBgSizeColor = (TextView)mTextViewSelected.getTag();
+//        TextView tvBgSizeColor = (TextView)mTextViewSelected.getTag();
+        SizeColorTagData tag = (SizeColorTagData)mTextViewSelected.getTag();
+        TextView tvBgSizeColor = tag.getTvBgSizeColor();
         tvBgSizeColor.setBackgroundResource(R.drawable.ic_bg_color);
         mLinearLayoutSizeColor.setVisibility(View.GONE);
     }

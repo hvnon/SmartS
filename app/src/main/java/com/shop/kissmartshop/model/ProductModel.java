@@ -1,6 +1,7 @@
 package com.shop.kissmartshop.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by LENOVO on 4/12/2016.
@@ -12,6 +13,7 @@ public class ProductModel implements Serializable {
     protected String price;
     protected String bluestone;
     protected String image;
+    protected List<ColorModel> colors;
 
     public String getProduct_id() {
         return product_id;
@@ -51,5 +53,13 @@ public class ProductModel implements Serializable {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public List<ColorModel> getColors() {
+        return colors;
+    }
+
+    public void setColors(List<ColorModel> colors) {
+        this.colors = colors;
     }
 }

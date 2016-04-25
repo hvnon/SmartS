@@ -58,7 +58,9 @@ public class ProductRecentlyAdapter extends RecyclerView.Adapter<ProductRecently
         productViewHolder.pricePromotion.setText(mLstProducts.get(i).getPricePromotion());
         productViewHolder.priceOriginal.setText(mLstProducts.get(i).getPriceOriginal());
 //        productViewHolder.productPhoto.setImageResource(mLstProducts.get(i).getPhotoId());
-        Picasso.with(mContext).load(mLstProducts.get(i).getImage()).into(productViewHolder.productPhoto);
+        if(!mLstProducts.get(i).getImage().equalsIgnoreCase("")) {
+            Picasso.with(mContext).load(mLstProducts.get(i).getImage()).into(productViewHolder.productPhoto);
+        }
 
         productViewHolder.amountOfTouch.setText(String.valueOf(mLstProducts.get(i).getAmountOfTouch()));
         productViewHolder.amountOfTry.setText(String.valueOf(mLstProducts.get(i).getAmountOfTry()));

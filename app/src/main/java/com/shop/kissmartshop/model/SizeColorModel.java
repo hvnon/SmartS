@@ -7,7 +7,8 @@ import java.io.Serializable;
  */
 public class SizeColorModel implements Serializable {
 
-    private String colorSizeId;
+    private String colorId;
+    private String sizeId;
 
     private String color;
 
@@ -27,5 +28,21 @@ public class SizeColorModel implements Serializable {
 
     public void setSize(String size) {
         this.size = size;
+    }
+
+    public String getColorId() {
+        return colorId;
+    }
+
+    public void setColorId(String colorId) {
+        this.colorId = colorId;
+    }
+
+    public String getSizeId() {
+        return sizeId;
+    }
+
+    public void setSizeId(String sizeId) {
+        this.sizeId = sizeId;
     }
 }

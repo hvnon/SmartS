@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import com.shop.kissmartshop.adapters.ProductCartAdapter;
 import com.shop.kissmartshop.api.APIHelper;
 import com.shop.kissmartshop.custom.SimpleDividerItemDecoration;
 import com.shop.kissmartshop.model.ProductCartTouchModel;
+import com.shop.kissmartshop.model.SizeColorModel;
 import com.shop.kissmartshop.utils.CommonUtils;
 import com.shop.kissmartshop.utils.Constants;
 
@@ -88,11 +90,14 @@ public class CartFragment extends Fragment{
                 } else {
                     JsonArray arr = new JsonArray();
                     for(ProductCartTouchModel product : mListProductInCart){
-                        JsonObject obj = new JsonObject();
-                        obj.addProperty("product_id", product.getProduct_id());
-                        obj.addProperty("color_id", "463");
-                        obj.addProperty("size_id", "302");
-                        arr.add(obj);
+                        List<SizeColorModel> lstSizeColors = product.getLstSizeColors();
+                        for(SizeColorModel sizeColor : lstSizeColors) {
+                            JsonObject obj = new JsonObject();
+                            obj.addProperty("product_id", product.getProduct_id());
+                            obj.addProperty("color_id", sizeColor.getColorId());
+                            obj.addProperty("size_id", sizeColor.getSizeId());
+                            arr.add(obj);
+                        }
                     }
 
                     String prodArr = arr.toString();
@@ -110,14 +115,18 @@ public class CartFragment extends Fragment{
             public void onClick(View v) {
                 JsonArray arr = new JsonArray();
                 for(ProductCartTouchModel product : mListProductInCart){
-                    JsonObject obj = new JsonObject();
-                    obj.addProperty("product_id", product.getProduct_id());
-                    obj.addProperty("color_id", "463");
-                    obj.addProperty("size_id", "302");
-                    arr.add(obj);
+                    List<SizeColorModel> lstSizeColors = product.getLstSizeColors();
+                    for(SizeColorModel sizeColor : lstSizeColors) {
+                        JsonObject obj = new JsonObject();
+                        obj.addProperty("product_id", product.getProduct_id());
+                        obj.addProperty("color_id", sizeColor.getColorId());
+                        obj.addProperty("size_id", sizeColor.getSizeId());
+                        arr.add(obj);
+                    }
                 }
 
                 String prodArr = arr.toString();
+                Log.d("SmartShop", prodArr);
                 (new APIHelper()).addProductTry(mContext, prodArr, mHanlderPostProduct);
 
 //                mProductCartAdapter.updateData(mListProductInCart);
